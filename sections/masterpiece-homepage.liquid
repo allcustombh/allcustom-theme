@@ -254,15 +254,19 @@
     <h2 class="master-section-title">The Collection</h2>
     <div class="master-grid">
       {%- for block in section.blocks -%}
-        {%- if block.type == 'watch_model' -%}
-          <div class="master-card">
-            {%- if block.settings.watch_image != blank -%}
-              <img src="{{ block.settings.watch_image | image_url: width: 600 }}" alt="{{ block.settings.title }}">
+        {%- if block.type == 'product_selector' -%}
+          {%- assign prod = block.settings.linked_product -%}
+          {%- assign p_title = prod.title | default: 'Masterpiece Model' -%}
+          {%- assign p_price = prod.price | money | default: 'Contact for Price' -%}
+          
+          <div class="master-card" onclick="window.location.href='{{ prod.url | default: '#' }}'">
+            {%- if block.settings.custom_render != blank -%}
+              <img src="{{ block.settings.custom_render | image_url: width: 600 }}" alt="{{ p_title }}">
             {%- else -%}
-              <img src="{{ block.settings.fallback_image | file_url }}" alt="{{ block.settings.title }}" onerror="this.src='https://via.placeholder.com/300x400/1f2833/c5a880?text=WATCH'">
+              <img src="{{ block.settings.fallback_image | file_url }}" alt="{{ p_title }}" onerror="this.src='https://via.placeholder.com/300x400/1f2833/c5a880?text=WATCH'">
             {%- endif -%}
-            <h3>{{ block.settings.title }}</h3>
-            <p>{{ block.settings.price }}</p>
+            <h3>{{ p_title }}</h3>
+            <p>{{ p_price }}</p>
           </div>
         {%- endif -%}
       {%- endfor -%}
@@ -276,42 +280,50 @@
       <div class="mc-visualizer">
         <div class="mc-assembly-animation">
           <div class="mc-layer" style="animation-delay: 0s; z-index: 1;">
-            {%- assign first_watch = section.blocks | where: 'type', 'watch_model' | first -%}
-            {%- if first_watch.settings.watch_image != blank -%}
-              <img src="{{ first_watch.settings.watch_image | image_url: width: 600 }}" id="mc-render-base">
+            {%- assign first_watch = section.blocks | where: 'type', 'product_selector' | first -%}
+            {%- if first_watch.settings.custom_render != blank -%}
+              <img src="{{ first_watch.settings.custom_render | image_url: width: 600 }}" id="mc-render-base">
             {%- else -%}
               <img src="{{ first_watch.settings.fallback_image | file_url }}" id="mc-render-base" onerror="this.src='https://via.placeholder.com/300x400/1f2833/c5a880?text=WATCH'">
             {%- endif -%}
           </div>
         </div>
-        <h3 id="mc-price-display" style="color: var(--master-gold); font-size: 2.5rem; margin-top: 2rem;">{{ first_watch.settings.price }}</h3>
+        <h3 id="mc-price-display" style="color: var(--master-gold); font-size: 2.5rem; margin-top: 2rem;">
+          {{ first_watch.settings.linked_product.price | money | default: '' }}
+        </h3>
         <p style="color: var(--master-text);">{{ section.settings.customizer_subtitle }}</p>
       </div>
       <div class="mc-controls">
         <h3 style="color: var(--master-white); font-size: 1.5rem; margin-bottom: 1rem;">1. Select Architecture</h3>
         
         {%- for block in section.blocks -%}
-          {%- if block.type == 'watch_model' -%}
+          {%- if block.type == 'product_selector' -%}
+            {%- assign prod = block.settings.linked_product -%}
             {%- assign active_class = '' -%}
             {%- if forloop.first %}{% assign active_class = 'active' %}{% endif -%}
             
-            {%- if block.settings.watch_image != blank -%}
-              {%- assign js_img = block.settings.watch_image | image_url: width: 600 -%}
+            {%- if block.settings.custom_render != blank -%}
+              {%- assign js_img = block.settings.custom_render | image_url: width: 600 -%}
             {%- else -%}
               {%- assign js_img = block.settings.fallback_image | file_url -%}
             {%- endif -%}
             
-            <div class="mc-option {{ active_class }}" onclick="updateCustomizer('{{ js_img }}', '{{ block.settings.price }}', this)">
+            <div class="mc-option {{ active_class }}" onclick="updateCustomizer('{{ js_img }}', '{{ prod.price | money | default: '' }}', '{{ prod.variants.first.id }}', this)">
               <div style="display: flex; align-items: center;">
-                <img src="{{ js_img }}" alt="{{ block.settings.title }}" onerror="this.src='https://via.placeholder.com/50x50/1f2833/c5a880?text=MOD'">
-                <span style="color: var(--master-white); font-weight: bold;">{{ block.settings.title }} Base</span>
+                <img src="{{ js_img }}" alt="{{ prod.title }}" onerror="this.src='https://via.placeholder.com/50x50/1f2833/c5a880?text=MOD'">
+                <span style="color: var(--master-white); font-weight: bold;">{{ prod.title | default: 'Select Product in Admin' }} Base</span>
               </div>
-              <span style="color: var(--master-gold);">+{{ block.settings.price }}</span>
+              <span style="color: var(--master-gold);">+{{ prod.price | money | default: '' }}</span>
             </div>
           {%- endif -%}
         {%- endfor -%}
         
-        <button class="mc-btn" onclick="alert('Configuration Locked. Redirecting to Secure Checkout...')">Finalize & Add to Cart</button>
+        <form id="master-cart-form" action="/cart/add" method="post" enctype="multipart/form-data">
+          {%- assign first_id = section.blocks | where: 'type', 'product_selector' | first -%}
+          <input type="hidden" name="id" id="mc-active-variant" value="{{ first_id.settings.linked_product.variants.first.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="button" class="mc-btn" onclick="submitMasterCart()">Finalize & Add to Cart</button>
+        </form>
       </div>
     </div>
   </div>
@@ -425,11 +437,53 @@
   initCanvas();
   drawParticles();
 
-  function updateCustomizer(imgSrc, price, el) {
+  function updateCustomizer(imgSrc, price, variantId, el) {
     document.getElementById('mc-render-base').src = imgSrc;
     document.getElementById('mc-price-display').innerText = price;
+    
+    // Update Add to Cart Form
+    if (variantId) {
+      document.getElementById('mc-active-variant').value = variantId;
+    }
+    
     document.querySelectorAll('.mc-option').forEach(opt => opt.classList.remove('active'));
     el.classList.add('active');
+  }
+  
+  function submitMasterCart() {
+    let variantId = document.getElementById('mc-active-variant').value;
+    if(!variantId || variantId === '') {
+      alert("Please select a valid product block from the Shopify Admin first.");
+      return;
+    }
+    
+    // Shopify Add to Cart AJAX POST
+    let formData = {
+     'items': [{
+      'id': variantId,
+      'quantity': 1
+      }]
+    };
+    
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => {
+      if(response.ok) {
+        alert("Masterpiece Added to Cart! Redirecting...");
+        window.location.href = "/cart";
+      } else {
+        alert("Error adding product to cart. Please ensure product has inventory.");
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      window.location.href = "/cart"; // Fallback
+    });
   }
 </script>
 
@@ -537,63 +591,24 @@
   ],
   "blocks": [
     {
-      "type": "watch_model",
-      "name": "Watch Model",
+      "type": "product_selector",
+      "name": "Linked Product",
       "settings": [
         {
+          "type": "product",
+          "id": "linked_product",
+          "label": "Select Shopify Product"
+        },
+        {
           "type": "image_picker",
-          "id": "watch_image",
-          "label": "Watch Image (Upload manually if missing)"
+          "id": "custom_render",
+          "label": "Customizer Transparent Image (Optional)"
         },
         {
           "type": "text",
           "id": "fallback_image",
-          "label": "Fallback Filename",
-          "info": "Used automatically if image picker is empty.",
+          "label": "Fallback Filename (if no image provided)",
           "default": "seiko_black.png"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Model Name",
-          "default": "Custom Seiko"
-        },
-        {
-          "type": "text",
-          "id": "price",
-          "label": "Price Display",
-          "default": ""
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Masterpiece Homepage",
-      "blocks": [
-        {
-          "type": "watch_model",
-          "settings": {
-            "title": "The Emperor",
-            "price": "",
-            "fallback_image": "seiko_red.png"
-          }
-        },
-        {
-          "type": "watch_model",
-          "settings": {
-            "title": "The Stealth Wave",
-            "price": "",
-            "fallback_image": "seiko_black.png"
-          }
-        },
-        {
-          "type": "watch_model",
-          "settings": {
-            "title": "The Voyager",
-            "price": ",100",
-            "fallback_image": "seiko_orange.png"
-          }
         }
       ]
     }
