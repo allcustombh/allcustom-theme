@@ -1,52 +1,234 @@
-﻿{
+{
   "sections": {
-    "masterpiece": {
-      "type": "masterpiece-homepage",
+    "hero_banner": {
+      "type": "image-banner",
       "blocks": {
-        "watch_1": {
-          "type": "watch_model",
+        "hero_heading": {
+          "type": "heading",
           "settings": {
-            "title": "The Emperor",
-            "price": "$850",
-            "fallback_image": "seiko_red.png"
+            "heading": "Atelier De Horology",
+            "heading_size": "hxxl"
           }
         },
-        "watch_2": {
-          "type": "watch_model",
+        "hero_text": {
+          "type": "text",
           "settings": {
-            "title": "The Stealth Wave",
-            "price": "$950",
-            "fallback_image": "seiko_black.png"
+            "text": "Masterpiece Custom Seiko Modifications",
+            "text_style": "subtitle"
           }
         },
-        "watch_3": {
-          "type": "watch_model",
+        "hero_buttons": {
+          "type": "buttons",
           "settings": {
-            "title": "The Voyager",
-            "price": "$1,100",
-            "fallback_image": "seiko_orange.png"
+            "button_label_1": "Explore Collection",
+            "button_link_1": "shopify:\/\/collections\/all",
+            "button_style_secondary_1": false,
+            "button_label_2": "Build Your Masterpiece",
+            "button_link_2": "",
+            "button_style_secondary_2": true
           }
         }
       },
       "block_order": [
-        "watch_1",
-        "watch_2",
-        "watch_3"
+        "hero_heading",
+        "hero_text",
+        "hero_buttons"
       ],
       "settings": {
-        "bg_color": "#0b0c10",
-        "surface_color": "#1f2833",
-        "accent_color": "#c5a880",
-        "text_color": "#c5c6c7",
-        "hero_title": "Atelier De Horology",
-        "hero_subtitle": "Masterpiece Custom Seiko Modifications",
-        "customizer_subtitle": "Estimated Build Time: 3-4 Weeks",
-        "blog_title": "The Journal",
-        "about_title": "The Atelier"
+        "image_overlay_opacity": 60,
+        "image_height": "large",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "color_scheme": "scheme-4",
+        "image_behavior": "none",
+        "show_text_box": false,
+        "show_text_below": false,
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "The Collection",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "",
+        "products_to_show": 6,
+        "columns_desktop": 3,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "outline",
+        "enable_desktop_slider": false,
+        "color_scheme": "scheme-1",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "customizer_cta": {
+      "type": "rich-text",
+      "blocks": {
+        "cta_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Build Your Masterpiece",
+            "heading_size": "h1"
+          }
+        },
+        "cta_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Design your dream timepiece with our interactive Watch Configurator. Select your base, dial, bezel, and more — each piece hand-assembled by our master watchmakers with surgical precision.</p>"
+          }
+        },
+        "cta_button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Launch Customizer",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "cta_heading",
+        "cta_text",
+        "cta_button"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-2",
+        "full_width": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "featured_blog": {
+      "type": "featured-blog",
+      "settings": {
+        "heading": "The Journal",
+        "heading_size": "h1",
+        "blog": "",
+        "post_limit": 3,
+        "columns_desktop": 3,
+        "color_scheme": "scheme-1",
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "show_view_all": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "nl_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Join the Collector's Club",
+            "heading_size": "h1"
+          }
+        },
+        "nl_paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Subscribe to receive exclusive access to 1-of-1 drops, modding tutorials, and private restocks. Be the first to know when new masterpieces are released.</p>"
+          }
+        },
+        "nl_form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "nl_heading",
+        "nl_paragraph",
+        "nl_form"
+      ],
+      "settings": {
+        "color_scheme": "scheme-5",
+        "full_width": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "about_section": {
+      "type": "rich-text",
+      "blocks": {
+        "about_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "The Atelier",
+            "heading_size": "h1"
+          }
+        },
+        "about_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We are masters of horological modification. Every piece is stripped down, inspected, and rebuilt using surgical-grade components. We do not just assemble watches — we engineer bespoke identities for the wrist. Based in Bahrain, our atelier combines Middle Eastern artistry with Swiss-level precision to create timepieces that transcend ordinary craftsmanship.</p>"
+          }
+        },
+        "about_button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Learn More",
+            "button_link": "",
+            "button_style_secondary": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "about_heading",
+        "about_text",
+        "about_button"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "full_width": false,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "contact_section": {
+      "type": "contact-form",
+      "settings": {
+        "heading": "Concierge Inquiry",
+        "heading_size": "h1",
+        "color_scheme": "scheme-2",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     }
   },
   "order": [
-    "masterpiece"
+    "hero_banner",
+    "featured_collection",
+    "customizer_cta",
+    "featured_blog",
+    "newsletter",
+    "about_section",
+    "contact_section"
   ]
 }
