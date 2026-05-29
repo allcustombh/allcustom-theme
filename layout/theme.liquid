@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html class="js" lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
@@ -312,11 +312,7 @@
     {% sections 'header-group' %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-      {% if template.name == 'index' %}
-        {% section 'masterpiece-homepage' %}
-      {% else %}
-        {{ content_for_layout }}
-      {% endif %}
+      {{ content_for_layout }}
     </main>
 
     {% sections 'footer-group' %}
@@ -382,4 +378,5 @@
   <script src='{{ 'atelier-engine.js' | asset_url }}' defer></script>
 </body>
 </html>
+
 

@@ -2,7 +2,48 @@
   "sections": {
     "masterpiece": {
       "type": "masterpiece-homepage",
-      "settings": {}
+      "blocks": {
+        "watch_1": {
+          "type": "watch_model",
+          "settings": {
+            "title": "The Emperor",
+            "price": "$850",
+            "fallback_image": "seiko_red.png"
+          }
+        },
+        "watch_2": {
+          "type": "watch_model",
+          "settings": {
+            "title": "The Stealth Wave",
+            "price": "$950",
+            "fallback_image": "seiko_black.png"
+          }
+        },
+        "watch_3": {
+          "type": "watch_model",
+          "settings": {
+            "title": "The Voyager",
+            "price": "$1,100",
+            "fallback_image": "seiko_orange.png"
+          }
+        }
+      },
+      "block_order": [
+        "watch_1",
+        "watch_2",
+        "watch_3"
+      ],
+      "settings": {
+        "bg_color": "#0b0c10",
+        "surface_color": "#1f2833",
+        "accent_color": "#c5a880",
+        "text_color": "#c5c6c7",
+        "hero_title": "Atelier De Horology",
+        "hero_subtitle": "Masterpiece Custom Seiko Modifications",
+        "customizer_subtitle": "Estimated Build Time: 3-4 Weeks",
+        "blog_title": "The Journal",
+        "about_title": "The Atelier"
+      }
     }
   },
   "order": [

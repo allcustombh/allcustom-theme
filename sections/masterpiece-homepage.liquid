@@ -1,9 +1,9 @@
-<style>
+﻿<style>
   :root {
-    --master-bg: #0b0c10;
-    --master-surface: #1f2833;
-    --master-gold: #c5a880;
-    --master-text: #c5c6c7;
+    --master-bg: {{ section.settings.bg_color }};
+    --master-surface: {{ section.settings.surface_color }};
+    --master-gold: {{ section.settings.accent_color }};
+    --master-text: {{ section.settings.text_color }};
     --master-white: #ffffff;
   }
   
@@ -239,9 +239,13 @@
   <div class="master-hero">
     <canvas id="masterCanvas" class="master-hero-canvas"></canvas>
     <div class="master-hero-content">
-      <img src="{{ 'brand_logo_transparent.png' | file_url }}" alt="Brand Logo" class="master-logo" onerror="this.src='https://cdn.shopify.com/s/files/1/0879/2368/7733/files/brand_logo_transparent.png'">
-      <h1 class="master-title">Atelier De Horology</h1>
-      <p class="master-subtitle">Masterpiece Custom Seiko Modifications</p>
+      {%- if section.settings.hero_logo != blank -%}
+        <img src="{{ section.settings.hero_logo | image_url: width: 500 }}" alt="{{ section.settings.hero_title }}" class="master-logo">
+      {%- else -%}
+        <img src="{{ 'brand_logo_transparent.png' | file_url }}" alt="Brand Logo" class="master-logo" onerror="this.src='https://via.placeholder.com/250x250/0b0c10/c5a880?text=LOGO'">
+      {%- endif -%}
+      <h1 class="master-title">{{ section.settings.hero_title }}</h1>
+      <p class="master-subtitle">{{ section.settings.hero_subtitle }}</p>
     </div>
   </div>
 
@@ -249,21 +253,19 @@
   <div class="master-section">
     <h2 class="master-section-title">The Collection</h2>
     <div class="master-grid">
-      <div class="master-card">
-        <img src="{{ 'seiko_red.png' | file_url }}" alt="Red One Piece" onerror="this.src='https://cdn.shopify.com/s/files/1/0879/2368/7733/files/seiko_red.png'">
-        <h3>The Emperor</h3>
-        <p></p>
-      </div>
-      <div class="master-card">
-        <img src="{{ 'seiko_black.png' | file_url }}" alt="Stealth Black" onerror="this.src='https://cdn.shopify.com/s/files/1/0879/2368/7733/files/seiko_black.png'">
-        <h3>The Stealth Wave</h3>
-        <p></p>
-      </div>
-      <div class="master-card">
-        <img src="{{ 'seiko_orange.png' | file_url }}" alt="Orange GMT" onerror="this.src='https://cdn.shopify.com/s/files/1/0879/2368/7733/files/seiko_orange.png'">
-        <h3>The Voyager</h3>
-        <p>,100</p>
-      </div>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'watch_model' -%}
+          <div class="master-card">
+            {%- if block.settings.watch_image != blank -%}
+              <img src="{{ block.settings.watch_image | image_url: width: 600 }}" alt="{{ block.settings.title }}">
+            {%- else -%}
+              <img src="{{ block.settings.fallback_image | file_url }}" alt="{{ block.settings.title }}" onerror="this.src='https://via.placeholder.com/300x400/1f2833/c5a880?text=WATCH'">
+            {%- endif -%}
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.price }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
   </div>
 
@@ -273,35 +275,41 @@
     <div class="master-customizer">
       <div class="mc-visualizer">
         <div class="mc-assembly-animation">
-          <!-- GIF Simulation via CSS & Layers -->
-          <div class="mc-layer" style="animation-delay: 0s; z-index: 1;"><img src="{{ 'seiko_black.png' | file_url }}" onerror="this.src='https://cdn.shopify.com/s/files/1/0879/2368/7733/files/seiko_black.png'" id="mc-render-base"></div>
+          <div class="mc-layer" style="animation-delay: 0s; z-index: 1;">
+            {%- assign first_watch = section.blocks | where: 'type', 'watch_model' | first -%}
+            {%- if first_watch.settings.watch_image != blank -%}
+              <img src="{{ first_watch.settings.watch_image | image_url: width: 600 }}" id="mc-render-base">
+            {%- else -%}
+              <img src="{{ first_watch.settings.fallback_image | file_url }}" id="mc-render-base" onerror="this.src='https://via.placeholder.com/300x400/1f2833/c5a880?text=WATCH'">
+            {%- endif -%}
+          </div>
         </div>
-        <h3 id="mc-price-display" style="color: var(--master-gold); font-size: 2.5rem; margin-top: 2rem;"></h3>
-        <p style="color: var(--master-text);">Estimated Build Time: 3-4 Weeks</p>
+        <h3 id="mc-price-display" style="color: var(--master-gold); font-size: 2.5rem; margin-top: 2rem;">{{ first_watch.settings.price }}</h3>
+        <p style="color: var(--master-text);">{{ section.settings.customizer_subtitle }}</p>
       </div>
       <div class="mc-controls">
         <h3 style="color: var(--master-white); font-size: 1.5rem; margin-bottom: 1rem;">1. Select Architecture</h3>
-        <div class="mc-option active" onclick="updateCustomizer('https://cdn.shopify.com/s/files/1/0879/2368/7733/files/seiko_red.png', 850, this)">
-          <div style="display: flex; align-items: center;">
-            <img src="https://cdn.shopify.com/s/files/1/0879/2368/7733/files/seiko_red.png" alt="Red">
-            <span style="color: var(--master-white); font-weight: bold;">The Emperor Base</span>
-          </div>
-          <span style="color: var(--master-gold);">+</span>
-        </div>
-        <div class="mc-option" onclick="updateCustomizer('https://cdn.shopify.com/s/files/1/0879/2368/7733/files/seiko_black.png', 950, this)">
-          <div style="display: flex; align-items: center;">
-            <img src="https://cdn.shopify.com/s/files/1/0879/2368/7733/files/seiko_black.png" alt="Black">
-            <span style="color: var(--master-white); font-weight: bold;">Stealth Base</span>
-          </div>
-          <span style="color: var(--master-gold);">+</span>
-        </div>
-        <div class="mc-option" onclick="updateCustomizer('https://cdn.shopify.com/s/files/1/0879/2368/7733/files/seiko_orange.png', 1100, this)">
-          <div style="display: flex; align-items: center;">
-            <img src="https://cdn.shopify.com/s/files/1/0879/2368/7733/files/seiko_orange.png" alt="Orange">
-            <span style="color: var(--master-white); font-weight: bold;">Voyager GMT Base</span>
-          </div>
-          <span style="color: var(--master-gold);">+,100</span>
-        </div>
+        
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'watch_model' -%}
+            {%- assign active_class = '' -%}
+            {%- if forloop.first %}{% assign active_class = 'active' %}{% endif -%}
+            
+            {%- if block.settings.watch_image != blank -%}
+              {%- assign js_img = block.settings.watch_image | image_url: width: 600 -%}
+            {%- else -%}
+              {%- assign js_img = block.settings.fallback_image | file_url -%}
+            {%- endif -%}
+            
+            <div class="mc-option {{ active_class }}" onclick="updateCustomizer('{{ js_img }}', '{{ block.settings.price }}', this)">
+              <div style="display: flex; align-items: center;">
+                <img src="{{ js_img }}" alt="{{ block.settings.title }}" onerror="this.src='https://via.placeholder.com/50x50/1f2833/c5a880?text=MOD'">
+                <span style="color: var(--master-white); font-weight: bold;">{{ block.settings.title }} Base</span>
+              </div>
+              <span style="color: var(--master-gold);">+{{ block.settings.price }}</span>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
         
         <button class="mc-btn" onclick="alert('Configuration Locked. Redirecting to Secure Checkout...')">Finalize & Add to Cart</button>
       </div>
@@ -310,21 +318,32 @@
 
   <!-- 4. LATEST WATCH NEWS (EDITORIAL) -->
   <div class="master-section">
-    <h2 class="master-section-title">The Journal</h2>
+    <h2 class="master-section-title">{{ section.settings.blog_title }}</h2>
     <div class="master-grid">
-      <div class="master-card" style="text-align: left;">
-        <h3 style="color: var(--master-gold);">The Anatomy of the One Piece Mod</h3>
-        <p style="font-size: 0.9rem; color: var(--master-text); font-weight: normal; margin-top: 1rem;">Discover the intricate details and craftsmanship that went into our latest Red Emperor design. From the custom dial to the chapter ring alignment.</p>
-        <button style="background: transparent; border: 1px solid var(--master-gold); color: var(--master-gold); padding: 0.5rem 1rem; border-radius: 4px; margin-top: 1rem; cursor: pointer;">Read Article</button>
-      </div>
-      <div class="master-card" style="text-align: left;">
-        <h3 style="color: var(--master-gold);">Ceramic vs Aluminum Bezels</h3>
-        <p style="font-size: 0.9rem; color: var(--master-text); font-weight: normal; margin-top: 1rem;">Understanding the materials that protect your timepiece. Why we choose premium ceramic inserts for all Stealth Wave builds.</p>
-        <button style="background: transparent; border: 1px solid var(--master-gold); color: var(--master-gold); padding: 0.5rem 1rem; border-radius: 4px; margin-top: 1rem; cursor: pointer;">Read Article</button>
-      </div>
+      {%- if section.settings.blog != blank and section.settings.blog.articles_count > 0 -%}
+        {%- for article in section.settings.blog.articles limit: 2 -%}
+          <div class="master-card" style="text-align: left;">
+            <h3 style="color: var(--master-gold);">{{ article.title }}</h3>
+            <p style="font-size: 0.9rem; color: var(--master-text); font-weight: normal; margin-top: 1rem;">{{ article.excerpt_or_content | strip_html | truncatewords: 20 }}</p>
+            <a href="{{ article.url }}" style="display: inline-block; background: transparent; border: 1px solid var(--master-gold); color: var(--master-gold); padding: 0.5rem 1rem; border-radius: 4px; margin-top: 1rem; text-decoration: none;">Read Article</a>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="master-card" style="text-align: left;">
+          <h3 style="color: var(--master-gold);">The Anatomy of the One Piece Mod</h3>
+          <p style="font-size: 0.9rem; color: var(--master-text); font-weight: normal; margin-top: 1rem;">Discover the intricate details and craftsmanship that went into our latest Red Emperor design.</p>
+          <button style="background: transparent; border: 1px solid var(--master-gold); color: var(--master-gold); padding: 0.5rem 1rem; border-radius: 4px; margin-top: 1rem; cursor: pointer;">Read Article</button>
+        </div>
+        <div class="master-card" style="text-align: left;">
+          <h3 style="color: var(--master-gold);">Ceramic vs Aluminum Bezels</h3>
+          <p style="font-size: 0.9rem; color: var(--master-text); font-weight: normal; margin-top: 1rem;">Understanding the materials that protect your timepiece. Why we choose premium ceramic inserts.</p>
+          <button style="background: transparent; border: 1px solid var(--master-gold); color: var(--master-gold); padding: 0.5rem 1rem; border-radius: 4px; margin-top: 1rem; cursor: pointer;">Read Article</button>
+        </div>
+      {%- endif -%}
+
       <div class="master-card" style="text-align: left;">
         <h3 style="color: var(--master-gold);">Join the Collector's Club</h3>
-        <p style="font-size: 0.9rem; color: var(--master-text); font-weight: normal; margin-top: 1rem;">Subscribe to our newsletter to receive exclusive access to 1-of-1 drops, modding tutorials, and private restocks.</p>
+        <p style="font-size: 0.9rem; color: var(--master-text); font-weight: normal; margin-top: 1rem;">Subscribe to receive exclusive access to 1-of-1 drops and modding tutorials.</p>
         <input type="email" class="mf-input" placeholder="Enter your email address" style="margin-top: 1rem; margin-bottom: 0;">
         <button class="mc-btn" style="margin-top: 0.5rem; padding: 0.5rem;">Subscribe</button>
       </div>
@@ -335,12 +354,20 @@
   <div class="master-section" style="border-top: 1px solid rgba(197, 168, 128, 0.2); padding-bottom: 2rem;">
     <div class="master-footer-split">
       <div class="mf-half">
-        <h2>The Atelier</h2>
-        <p style="line-height: 1.8; opacity: 0.8;">We are masters of horological modification. Every piece is stripped down, inspected, and rebuilt using surgical-grade components. We do not just assemble watches; we engineer bespoke identities for the wrist.</p>
+        <h2>{{ section.settings.about_title }}</h2>
+        <div style="line-height: 1.8; opacity: 0.8;">
+          {{ section.settings.about_text }}
+        </div>
         <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-          <a href="/policies/refund-policy" style="color: var(--master-gold); text-decoration: none;">Refund Policy</a>
-          <a href="/policies/privacy-policy" style="color: var(--master-gold); text-decoration: none;">Privacy Policy</a>
-          <a href="/policies/terms-of-service" style="color: var(--master-gold); text-decoration: none;">Terms of Service</a>
+          {%- if section.settings.footer_menu != blank -%}
+            {%- for link in section.settings.footer_menu.links -%}
+              <a href="{{ link.url }}" style="color: var(--master-gold); text-decoration: none;">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="/policies/refund-policy" style="color: var(--master-gold); text-decoration: none;">Refund Policy</a>
+            <a href="/policies/privacy-policy" style="color: var(--master-gold); text-decoration: none;">Privacy Policy</a>
+            <a href="/policies/terms-of-service" style="color: var(--master-gold); text-decoration: none;">Terms of Service</a>
+          {%- endif -%}
         </div>
       </div>
       <div class="mf-half">
@@ -358,7 +385,6 @@
 </div>
 
 <script>
-  // AI Canvas Particle Effect
   const canvas = document.getElementById('masterCanvas');
   const ctx = canvas.getContext('2d');
   let width, height, particles;
@@ -399,12 +425,9 @@
   initCanvas();
   drawParticles();
 
-  // Customizer Logic
   function updateCustomizer(imgSrc, price, el) {
     document.getElementById('mc-render-base').src = imgSrc;
-    document.getElementById('mc-price-display').innerText = '$' + price;
-    
-    // Update active states
+    document.getElementById('mc-price-display').innerText = price;
     document.querySelectorAll('.mc-option').forEach(opt => opt.classList.remove('active'));
     el.classList.add('active');
   }
@@ -415,10 +438,164 @@
   "name": "Masterpiece Homepage",
   "tag": "section",
   "class": "section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#0b0c10"
+    },
+    {
+      "type": "color",
+      "id": "surface_color",
+      "label": "Surface Color",
+      "default": "#1f2833"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Gold Accent",
+      "default": "#c5a880"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#c5c6c7"
+    },
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_logo",
+      "label": "Hero Logo"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "Atelier De Horology"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "Masterpiece Custom Seiko Modifications"
+    },
+    {
+      "type": "header",
+      "content": "Customizer Section"
+    },
+    {
+      "type": "text",
+      "id": "customizer_subtitle",
+      "label": "Customizer Subtitle",
+      "default": "Estimated Build Time: 3-4 Weeks"
+    },
+    {
+      "type": "header",
+      "content": "Journal Section"
+    },
+    {
+      "type": "text",
+      "id": "blog_title",
+      "label": "Journal Title",
+      "default": "The Journal"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Select Blog"
+    },
+    {
+      "type": "header",
+      "content": "About Section"
+    },
+    {
+      "type": "text",
+      "id": "about_title",
+      "label": "About Title",
+      "default": "The Atelier"
+    },
+    {
+      "type": "richtext",
+      "id": "about_text",
+      "label": "About Text",
+      "default": "<p>We are masters of horological modification. Every piece is stripped down, inspected, and rebuilt using surgical-grade components. We do not just assemble watches; we engineer bespoke identities for the wrist.</p>"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "label": "Footer Menu"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "watch_model",
+      "name": "Watch Model",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "watch_image",
+          "label": "Watch Image (Upload manually if missing)"
+        },
+        {
+          "type": "text",
+          "id": "fallback_image",
+          "label": "Fallback Filename",
+          "info": "Used automatically if image picker is empty.",
+          "default": "seiko_black.png"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Model Name",
+          "default": "Custom Seiko"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price Display",
+          "default": ""
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Masterpiece Homepage"
+      "name": "Masterpiece Homepage",
+      "blocks": [
+        {
+          "type": "watch_model",
+          "settings": {
+            "title": "The Emperor",
+            "price": "",
+            "fallback_image": "seiko_red.png"
+          }
+        },
+        {
+          "type": "watch_model",
+          "settings": {
+            "title": "The Stealth Wave",
+            "price": "",
+            "fallback_image": "seiko_black.png"
+          }
+        },
+        {
+          "type": "watch_model",
+          "settings": {
+            "title": "The Voyager",
+            "price": ",100",
+            "fallback_image": "seiko_orange.png"
+          }
+        }
+      ]
     }
   ]
 }
