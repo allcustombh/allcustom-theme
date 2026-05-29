@@ -46,10 +46,82 @@
     "customizer": {
       "type": "customizer",
       "settings": {}
+    },
+    "video": {
+      "type": "video",
+      "settings": {
+        "heading": "The Art of Precision",
+        "heading_size": "h1",
+        "video_url": "https://www.youtube.com/watch?v=R9Ym3x3T36U",
+        "enable_video_looping": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Masterpiece Collection",
+        "heading_size": "h1",
+        "description": "Exclusive timepieces available for immediate acquisition.",
+        "show_description": true,
+        "collection": "frontpage",
+        "products_to_show": 3,
+        "columns_desktop": 3,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "outline",
+        "enable_desktop_slider": false,
+        "color_scheme": "scheme-2",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "full_width": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      },
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Join the Elite",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Receive exclusive invitations to private viewings and new releases.</p>"
+          }
+        },
+        "email_form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email_form"
+      ]
     }
   },
   "order": [
     "banner",
-    "customizer"
+    "customizer",
+    "video",
+    "featured_collection",
+    "newsletter"
   ]
 }
