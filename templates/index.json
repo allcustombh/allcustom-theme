@@ -1,84 +1,49 @@
 {
   "sections": {
-    "banner": {
-      "type": "image-banner",
+    "logo_hero": {
+      "type": "custom-liquid",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "desktop_content_alignment": "center",
+        "custom_liquid": "<div style=\"text-align: center; padding: 4rem 0;\"><div class=\"animated-logo-container\"><img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0879\/2368\/7733\/files\/brand_logo.png\" alt=\"Brand Logo\" onerror=\"this.src='https:\/\/via.placeholder.com\/250\/0d0d0f\/c9b084?text=UPLOAD+LOGO.PNG'\"><\/div><h1 style=\"font-family: var(--font-serif); color: var(--c-sand); margin-top: 2rem; letter-spacing: 3px;\">BESPOKE SEIKO MODS<\/h1><p style=\"color: var(--c-platinum);\">Crafted with ultimate precision.<\/p><\/div>",
         "color_scheme": "scheme-1",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": true,
-        "show_text_below": false
-      },
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "OBSIDIAN & SAND",
-            "heading_size": "h0"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "The Digital Atelier for Bespoke Horology.",
-            "text_style": "body"
-          }
-        },
-        "buttons": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Configure Yours",
-            "button_link_1": "shopify://pages/customizer",
-            "button_style_secondary_1": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text",
-        "buttons"
-      ]
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "assembly_demo": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div style=\"text-align: center; margin-bottom: 2rem;\"><h2 style=\"color: var(--c-sand); font-family: var(--font-serif);\">The Assembly Process<\/h2><div class=\"assembly-demo-container\"><div class=\"assembly-part part-case\">Case<\/div><div class=\"assembly-part part-dial\">Dial<\/div><div class=\"assembly-part part-bezel\">Bezel<\/div><\/div><\/div>",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 0
+      }
     },
     "customizer": {
       "type": "customizer",
       "settings": {}
     },
-    "video": {
-      "type": "video",
+    "featured_collection": {
+      "type": "featured-collection",
       "settings": {
-        "heading": "The Art of Precision",
+        "title": "Available Masterpieces",
         "heading_size": "h1",
-        "video_url": "https://www.youtube.com/watch?v=R9Ym3x3T36U",
-        "enable_video_looping": true,
-        "color_scheme": "scheme-1",
+        "collection": "",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-2",
+        "enable_quick_add": true,
         "padding_top": 60,
         "padding_bottom": 60
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "blog_news": {
+      "type": "featured-blog",
       "settings": {
-        "title": "Masterpiece Collection",
+        "heading": "Latest Watch News",
         "heading_size": "h1",
-        "description": "Exclusive timepieces available for immediate acquisition.",
-        "show_description": true,
-        "collection": "frontpage",
-        "products_to_show": 3,
-        "columns_desktop": 3,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "outline",
-        "enable_desktop_slider": false,
-        "color_scheme": "scheme-2",
-        "image_ratio": "portrait",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "enable_quick_add": true,
+        "blog": "News",
+        "post_limit": 3,
+        "color_scheme": "scheme-1",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -92,36 +57,18 @@
         "padding_bottom": 60
       },
       "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Join the Elite",
-            "heading_size": "h1"
-          }
-        },
-        "paragraph": {
-          "type": "paragraph",
-          "settings": {
-            "text": "<p>Receive exclusive invitations to private viewings and new releases.</p>"
-          }
-        },
-        "email_form": {
-          "type": "email_form",
-          "settings": {}
-        }
+        "heading": { "type": "heading", "settings": { "heading": "Join the Collector's Club", "heading_size": "h1" } },
+        "email_form": { "type": "email_form", "settings": {} }
       },
-      "block_order": [
-        "heading",
-        "paragraph",
-        "email_form"
-      ]
+      "block_order": [ "heading", "email_form" ]
     }
   },
   "order": [
-    "banner",
+    "logo_hero",
+    "assembly_demo",
     "customizer",
-    "video",
     "featured_collection",
+    "blog_news",
     "newsletter"
   ]
 }

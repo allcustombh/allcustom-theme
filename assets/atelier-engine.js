@@ -308,3 +308,4 @@ async function handleAddToCart() {
 
 document.addEventListener('DOMContentLoaded', init);
 
+
