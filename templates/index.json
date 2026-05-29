@@ -1,75 +1,11 @@
-{
+﻿{
   "sections": {
-    "logo_hero": {
-      "type": "custom-liquid",
-      "settings": {
-        "custom_liquid": "<div style=\"text-align: center; padding: 4rem 0;\"><div class=\"animated-logo-container\"><img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0879\/2368\/7733\/files\/brand_logo_transparent.png\" alt=\"Brand Logo\" onerror=\"this.src='https:\/\/via.placeholder.com\/250\/0d0d0f\/c9b084?text=UPLOAD+LOGO.PNG'\"><\/div><h1 style=\"font-family: var(--font-serif); color: var(--c-sand); margin-top: 2rem; letter-spacing: 3px;\">BESPOKE SEIKO MODS<\/h1><p style=\"color: var(--c-platinum);\">Crafted with ultimate precision.<\/p><\/div>",
-        "color_scheme": "scheme-1",
-        "padding_top": 40,
-        "padding_bottom": 40
-      }
-    },
-    "assembly_demo": {
-      "type": "custom-liquid",
-      "settings": {
-        "custom_liquid": "<div style=\"text-align: center; margin-bottom: 2rem;\"><h2 style=\"color: var(--c-sand); font-family: var(--font-serif);\">The Assembly Process<\/h2><div class=\"assembly-demo-container\"><div class=\"assembly-part part-case\">Case<\/div><div class=\"assembly-part part-dial\">Dial<\/div><div class=\"assembly-part part-bezel\">Bezel<\/div><\/div><\/div>",
-        "color_scheme": "scheme-1",
-        "padding_top": 40,
-        "padding_bottom": 0
-      }
-    },
-    "customizer": {
-      "type": "customizer",
+    "masterpiece": {
+      "type": "masterpiece-homepage",
       "settings": {}
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Available Masterpieces",
-        "heading_size": "h1",
-        "collection": "",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-2",
-        "enable_quick_add": true,
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
-    "blog_news": {
-      "type": "featured-blog",
-      "settings": {
-        "heading": "Latest Watch News",
-        "heading_size": "h1",
-        "blog": "News",
-        "post_limit": 3,
-        "color_scheme": "scheme-1",
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
-    "newsletter": {
-      "type": "newsletter",
-      "settings": {
-        "color_scheme": "scheme-2",
-        "full_width": true,
-        "padding_top": 60,
-        "padding_bottom": 60
-      },
-      "blocks": {
-        "heading": { "type": "heading", "settings": { "heading": "Join the Collector's Club", "heading_size": "h1" } },
-        "email_form": { "type": "email_form", "settings": {} }
-      },
-      "block_order": [ "heading", "email_form" ]
     }
   },
   "order": [
-    "logo_hero",
-    "assembly_demo",
-    "customizer",
-    "featured_collection",
-    "blog_news",
-    "newsletter"
+    "masterpiece"
   ]
 }
-
