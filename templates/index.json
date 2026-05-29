@@ -3,7 +3,7 @@
     "logo_hero": {
       "type": "custom-liquid",
       "settings": {
-        "custom_liquid": "<div style=\"text-align: center; padding: 4rem 0;\"><div class=\"animated-logo-container\"><img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0879\/2368\/7733\/files\/brand_logo.png\" alt=\"Brand Logo\" onerror=\"this.src='https:\/\/via.placeholder.com\/250\/0d0d0f\/c9b084?text=UPLOAD+LOGO.PNG'\"><\/div><h1 style=\"font-family: var(--font-serif); color: var(--c-sand); margin-top: 2rem; letter-spacing: 3px;\">BESPOKE SEIKO MODS<\/h1><p style=\"color: var(--c-platinum);\">Crafted with ultimate precision.<\/p><\/div>",
+        "custom_liquid": "<div style=\"text-align: center; padding: 4rem 0;\"><div class=\"animated-logo-container\"><img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0879\/2368\/7733\/files\/brand_logo_transparent.png\" alt=\"Brand Logo\" onerror=\"this.src='https:\/\/via.placeholder.com\/250\/0d0d0f\/c9b084?text=UPLOAD+LOGO.PNG'\"><\/div><h1 style=\"font-family: var(--font-serif); color: var(--c-sand); margin-top: 2rem; letter-spacing: 3px;\">BESPOKE SEIKO MODS<\/h1><p style=\"color: var(--c-platinum);\">Crafted with ultimate precision.<\/p><\/div>",
         "color_scheme": "scheme-1",
         "padding_top": 40,
         "padding_bottom": 40
@@ -72,3 +72,4 @@
     "newsletter"
   ]
 }
+
