@@ -1,0 +1,60 @@
+<div class="page-width">
+  <section class="customizer-layout">
+    <div class="visualizer-pane">
+      <div id="watchVisualizer">
+        <div class="watch-layers-container" style="position: relative; width: 300px; height: 300px; margin: 0 auto;">
+          <div id="layer-case" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--c-platinum);">[ Case Render ]</div>
+          <div id="layer-dial" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--c-sand);">[ Dial Render ]</div>
+          <div id="layer-bezel" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;"></div>
+          <div id="layer-hands" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;"></div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+           <p class="text-platinum" style="font-size: 0.9rem; opacity: 0.8;" id="visualizer-summary">Datejust 41mm · Obsidian Dial · Fluted Bezel</p>
+           <h3 class="text-sand" id="total-price" style="margin-top: 0.5rem; font-size: 2rem;">,400</h3>
+        </div>
+      </div>
+    </div>
+    <div class="controls-pane">
+      <div style="margin-bottom: 2rem;">
+        <h1 id="builder-title" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Configure Your Timepiece</h1>
+        <p class="text-platinum" id="builder-desc" style="opacity: 0.8;">Select your components to craft a truly unique piece of horological art.</p>
+      </div>
+      <div class="accordion-system" id="configuratorAccordion">
+        <div class="accordion-item glass-panel" style="margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
+          <button class="accordion-header" aria-expanded="true"><span id="label-base">1. Base Architecture</span><span class="icon">+</span></button>
+          <div class="accordion-content active" id="options-base"></div>
+        </div>
+        <div class="accordion-item glass-panel" style="margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
+          <button class="accordion-header" aria-expanded="false"><span id="label-dial">2. Custom Dials</span><span class="icon">+</span></button>
+          <div class="accordion-content" id="options-dial"></div>
+        </div>
+        <div class="accordion-item glass-panel" style="margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
+          <button class="accordion-header" aria-expanded="false"><span id="label-bezel">3. Bezels</span><span class="icon">+</span></button>
+          <div class="accordion-content" id="options-bezel"></div>
+        </div>
+      </div>
+      <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--c-charcoal);">
+        <button id="addToCartBtn" class="button button--primary" style="width: 100%; font-size: 1.1rem; padding: 1.5rem;">Finalize Build & Add to Cart</button>
+      </div>
+      <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
+        <div style="text-align: center;"><div style="color: var(--c-sand); font-size: 1.5rem;">⚙️</div><p class="text-platinum" style="font-size: 0.75rem; margin-top: 4px;" id="trust-warranty">1-Year Warranty</p></div>
+        <div style="text-align: center;"><div style="color: var(--c-sand); font-size: 1.5rem;">💧</div><p class="text-platinum" style="font-size: 0.75rem; margin-top: 4px;" id="trust-water">Water Resistance</p></div>
+        <div style="text-align: center;"><div style="color: var(--c-sand); font-size: 1.5rem;">🛡️</div><p class="text-platinum" style="font-size: 0.75rem; margin-top: 4px;" id="trust-auth">Authentic Components</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Customizer",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Luxury Customizer"
+    }
+  ]
+}
+{% endschema %}
