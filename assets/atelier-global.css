@@ -96,3 +96,33 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   border-color: var(--c-sand);
   background: rgba(201, 176, 132, 0.1);
 }
+
+/* Advanced UI Tokens */
+.header-wrapper {
+  background: rgba(13, 13, 15, 0.75) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(229, 229, 231, 0.05) !important;
+}
+
+.button, .btn-primary {
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+.button:hover, .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(201, 176, 132, 0.2) !important;
+}
+
+/* Cinematic Typography */
+.banner__heading {
+  font-family: var(--font-serif) !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: linear-gradient(to right, var(--c-sand), var(--c-platinum));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
