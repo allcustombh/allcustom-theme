@@ -1,0 +1,82 @@
+{%- comment -%}
+  Atelier De Horology — GCC SEO Meta Tags
+  Targets: Bahrain, Saudi Arabia, UAE, Kuwait, Qatar, Oman
+{%- endcomment -%}
+
+{%- if template.name == 'index' -%}
+  <meta name="description" content="AllCustom Watches — Bahrain's premier luxury Seiko modification atelier. Bespoke custom watch mods, hand-assembled with surgical precision. Serving Bahrain, Saudi Arabia, UAE & the GCC.">
+  <meta name="keywords" content="custom watches Bahrain, luxury Seiko mod, bespoke watch modification, custom watch UAE, modded watches Saudi Arabia, Seiko mod GCC, custom dive watch, watch customization Bahrain, luxury timepiece modification, AllCustom Watches, Atelier De Horology">
+  
+  {%- comment -%} Open Graph for Social Sharing {%- endcomment -%}
+  <meta property="og:title" content="AllCustom Watches — Bespoke Seiko Modifications | Bahrain">
+  <meta property="og:description" content="Hand-crafted luxury watch modifications. Each piece is surgically deconstructed and rebuilt to your exact specifications. Based in Bahrain, shipping worldwide.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:site_name" content="{{ shop.name }}">
+  {%- if section.settings.hero_watch_image -%}
+    <meta property="og:image" content="{{ section.settings.hero_watch_image | image_url: width: 1200 }}">
+  {%- endif -%}
+  
+  {%- comment -%} Twitter Card {%- endcomment -%}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AllCustom Watches — Bespoke Seiko Modifications">
+  <meta name="twitter:description" content="Bahrain's premier luxury Seiko modification atelier. Bespoke mods, hand-assembled with surgical precision.">
+  
+  {%- comment -%} GCC Geo Targeting {%- endcomment -%}
+  <meta name="geo.region" content="BH">
+  <meta name="geo.placename" content="Bahrain">
+  <meta name="geo.position" content="26.0667;50.5577">
+  <meta name="ICBM" content="26.0667, 50.5577">
+  
+  {%- comment -%} Schema.org LocalBusiness Structured Data {%- endcomment -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "{{ shop.name }}",
+    "alternateName": "Atelier De Horology",
+    "description": "Bahrain's premier luxury custom Seiko watch modification atelier. Bespoke mods hand-assembled with surgical precision.",
+    "url": "{{ shop.url }}",
+    "telephone": "{{ shop.phone }}",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "BH",
+      "addressLocality": "Bahrain"
+    },
+    "areaServed": [
+      {"@type": "Country", "name": "Bahrain"},
+      {"@type": "Country", "name": "Saudi Arabia"},
+      {"@type": "Country", "name": "United Arab Emirates"},
+      {"@type": "Country", "name": "Kuwait"},
+      {"@type": "Country", "name": "Qatar"},
+      {"@type": "Country", "name": "Oman"}
+    ],
+    "priceRange": "$$$",
+    "image": "{{ 'atelier-hero-watch.png' | asset_url }}",
+    "sameAs": [
+      "{{ settings.social_instagram_link }}",
+      "{{ settings.social_facebook_link }}",
+      "{{ settings.social_tiktok_link }}"
+    ]
+  }
+  </script>
+{%- endif -%}
+
+{%- if template.name == 'product' -%}
+  <meta name="description" content="{{ product.title }} — {{ product.description | strip_html | truncatewords: 25 }} | Custom Seiko Modification by AllCustom Watches, Bahrain.">
+  <meta property="og:title" content="{{ product.title }} | AllCustom Watches">
+  <meta property="og:description" content="{{ product.description | strip_html | truncatewords: 25 }}">
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {%- if product.featured_media -%}
+    <meta property="og:image" content="{{ product.featured_media | image_url: width: 1200 }}">
+  {%- endif -%}
+  <meta property="product:price:amount" content="{{ product.price | money_without_currency }}">
+  <meta property="product:price:currency" content="{{ cart.currency.iso_code }}">
+{%- endif -%}
+
+{%- if template.name == 'collection' -%}
+  <meta name="description" content="{{ collection.title }} — Browse our curated collection of bespoke custom Seiko modifications. Handcrafted luxury timepieces available in Bahrain & across the GCC.">
+  <meta property="og:title" content="{{ collection.title }} | AllCustom Watches">
+  <meta property="og:description" content="Browse our curated collection of bespoke custom Seiko modifications. Handcrafted luxury timepieces.">
+{%- endif -%}

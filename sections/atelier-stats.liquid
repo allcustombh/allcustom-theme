@@ -1,0 +1,345 @@
+<style>
+  .atelier-stats {
+    background-color: {{ section.settings.bg_color }};
+    padding: 80px 0;
+    overflow: hidden;
+  }
+
+  .atelier-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .atelier-stats__item {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    position: relative;
+  }
+
+  /* Gold vertical dividers between items */
+  .atelier-stats__item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--atelier-gold, #c5a880) 30%,
+      var(--atelier-gold, #c5a880) 70%,
+      transparent
+    );
+    opacity: 0.4;
+  }
+
+  .atelier-stats__number-wrapper {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .atelier-stats__number {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--atelier-gold, #c5a880);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    transition: color 0.3s ease;
+  }
+
+  .atelier-stats__suffix {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--atelier-gold, #c5a880);
+    line-height: 1;
+    margin-left: 0.1em;
+    opacity: 0.85;
+  }
+
+  .atelier-stats__label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #a0a0a0;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    line-height: 1.4;
+    margin-top: 0.5rem;
+  }
+
+  /* Subtle glow on hover */
+  .atelier-stats__item:hover .atelier-stats__number {
+    text-shadow: 0 0 30px rgba(197, 168, 128, 0.25);
+  }
+
+  /* Entrance animation */
+  .atelier-stats__item {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .atelier-stats__item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .atelier-stats__item:nth-child(2) { transition-delay: 0.1s; }
+  .atelier-stats__item:nth-child(3) { transition-delay: 0.2s; }
+  .atelier-stats__item:nth-child(4) { transition-delay: 0.3s; }
+
+  /* Responsive: 2 columns on tablet */
+  @media screen and (max-width: 989px) {
+    .atelier-stats {
+      padding: 60px 0;
+    }
+
+    .atelier-stats__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+    }
+
+    .atelier-stats__item:nth-child(2)::after {
+      display: none;
+    }
+
+    /* Add horizontal divider between rows */
+    .atelier-stats__item:nth-child(1),
+    .atelier-stats__item:nth-child(2) {
+      border-bottom: 1px solid rgba(197, 168, 128, 0.15);
+    }
+
+    .atelier-stats__number {
+      font-size: 3.5rem;
+    }
+
+    .atelier-stats__suffix {
+      font-size: 2rem;
+    }
+  }
+
+  /* Responsive: stacked on mobile */
+  @media screen and (max-width: 549px) {
+    .atelier-stats {
+      padding: 40px 0;
+    }
+
+    .atelier-stats__grid {
+      grid-template-columns: 1fr;
+      max-width: 320px;
+    }
+
+    .atelier-stats__item::after {
+      display: none !important;
+    }
+
+    .atelier-stats__item {
+      padding: 2rem 1rem;
+      border-bottom: 1px solid rgba(197, 168, 128, 0.12);
+    }
+
+    .atelier-stats__item:last-child {
+      border-bottom: none;
+    }
+
+    .atelier-stats__number {
+      font-size: 3rem;
+    }
+
+    .atelier-stats__suffix {
+      font-size: 1.75rem;
+    }
+
+    .atelier-stats__label {
+      font-size: 0.7rem;
+    }
+
+    /* Reset stagger for mobile — all at once */
+    .atelier-stats__item:nth-child(n) {
+      transition-delay: 0s;
+    }
+  }
+</style>
+
+<section class="atelier-stats" id="AtelierStats-{{ section.id }}">
+  {%- if section.blocks.size > 0 -%}
+    <div class="atelier-stats__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'stat_item' -%}
+          <div class="atelier-stats__item" {{ block.shopify_attributes }}
+               data-stat-target="{{ block.settings.number }}">
+            <div class="atelier-stats__number-wrapper">
+              <span class="atelier-stats__number" data-count="0">0</span>
+              {%- if block.settings.suffix != blank -%}
+                <span class="atelier-stats__suffix">{{ block.settings.suffix }}</span>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.label != blank -%}
+              <div class="atelier-stats__label">{{ block.settings.label }}</div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+<script>
+  (function () {
+    const section = document.getElementById('AtelierStats-{{ section.id }}');
+    if (!section) return;
+
+    const items = section.querySelectorAll('.atelier-stats__item');
+    let animated = false;
+
+    function easeOutQuart(t) {
+      return 1 - Math.pow(1 - t, 4);
+    }
+
+    function animateCount(el) {
+      const numberEl = el.querySelector('.atelier-stats__number');
+      const target = parseInt(el.dataset.statTarget, 10);
+      if (isNaN(target)) return;
+
+      const duration = 2000;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeOutQuart(progress);
+        const current = Math.round(easedProgress * target);
+
+        numberEl.textContent = current.toLocaleString();
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    function handleIntersection(entries, observer) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !animated) {
+          animated = true;
+          items.forEach(function (item) {
+            item.classList.add('is-visible');
+            animateCount(item);
+          });
+          observer.disconnect();
+        }
+      });
+    }
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(handleIntersection, {
+        root: null,
+        rootMargin: '0px 0px -80px 0px',
+        threshold: 0.15
+      });
+
+      observer.observe(section);
+    } else {
+      /* Fallback for older browsers */
+      items.forEach(function (item) {
+        item.classList.add('is-visible');
+        var numberEl = item.querySelector('.atelier-stats__number');
+        numberEl.textContent = item.dataset.statTarget;
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Atelier Stats",
+  "tag": "section",
+  "class": "atelier-stats-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#0b0c10"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat_item",
+      "name": "Stat Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "100",
+          "info": "Numeric value to count up to (whole numbers only)."
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix",
+          "default": "+",
+          "info": "Symbol displayed after the number, e.g. +, %, etc."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Stat Label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Atelier Stats",
+      "blocks": [
+        {
+          "type": "stat_item",
+          "settings": {
+            "number": "500",
+            "suffix": "+",
+            "label": "Watches Modified"
+          }
+        },
+        {
+          "type": "stat_item",
+          "settings": {
+            "number": "8",
+            "suffix": "+",
+            "label": "Years Experience"
+          }
+        },
+        {
+          "type": "stat_item",
+          "settings": {
+            "number": "15",
+            "suffix": "+",
+            "label": "Countries Served"
+          }
+        },
+        {
+          "type": "stat_item",
+          "settings": {
+            "number": "100",
+            "suffix": "%",
+            "label": "Satisfaction Rate"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

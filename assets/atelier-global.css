@@ -1,46 +1,69 @@
 /* ============================================
    ATELIER DE HOROLOGY — LUXURY DARK THEME
    Global stylesheet for Dawn v15.4.1
-   Transforms ALL Dawn components into the
-   dark obsidian & gold luxury aesthetic.
+   Premium e-commerce experience for the
+   discerning collector.
    ============================================ */
 
 /* --- CUSTOM PROPERTIES --- */
 :root {
   --atelier-gold: #c5a880;
   --atelier-gold-light: #e6c598;
+  --atelier-gold-dark: #a08860;
   --atelier-bg: #0b0c10;
   --atelier-surface: #1a1a1c;
+  --atelier-surface-light: #242428;
   --atelier-border: rgba(197, 168, 128, 0.15);
-  --atelier-border-hover: rgba(197, 168, 128, 0.4);
+  --atelier-border-hover: rgba(197, 168, 128, 0.45);
   --atelier-card-bg: rgba(26, 26, 28, 0.6);
+  --atelier-glow: 0 0 40px rgba(197, 168, 128, 0.15);
   --atelier-transition: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --atelier-transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* --- SMOOTH SCROLL --- */
+/* --- GLOBAL RESETS & SCROLL --- */
 html {
   scroll-behavior: smooth;
 }
 
-/* --- SELECTION --- */
 ::selection {
   background-color: rgba(197, 168, 128, 0.3);
   color: #ffffff;
 }
 
-/* --- CUSTOM SCROLLBAR --- */
-::-webkit-scrollbar {
-  width: 6px;
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--atelier-bg); }
+::-webkit-scrollbar-thumb { background: rgba(197, 168, 128, 0.3); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--atelier-gold); }
+
+/* --- SECTION REVEAL ANIMATIONS --- */
+.atelier-section-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s var(--atelier-transition);
 }
-::-webkit-scrollbar-track {
-  background: var(--atelier-bg);
+
+.atelier-section-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
-::-webkit-scrollbar-thumb {
-  background: rgba(197, 168, 128, 0.35);
-  border-radius: 3px;
+
+.atelier-reveal {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.6s ease, transform 0.6s var(--atelier-transition);
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--atelier-gold);
+
+.atelier-revealed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.atelier-stagger {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s var(--atelier-transition);
 }
 
 /* ============================================
@@ -64,10 +87,15 @@ h1, h2, h3, h4, h5, h6,
    HEADER & NAVIGATION
    ============================================ */
 .header-wrapper {
-  background-color: rgba(11, 12, 16, 0.96) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background-color: rgba(11, 12, 16, 0.92) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--atelier-border) !important;
+  transition: background-color 0.4s ease;
+}
+
+.header-wrapper:hover {
+  background-color: rgba(11, 12, 16, 0.98) !important;
 }
 
 .section-header,
@@ -77,9 +105,7 @@ h1, h2, h3, h4, h5, h6,
   z-index: 1000;
 }
 
-.header {
-  color: #e5e5e7;
-}
+.header { color: #e5e5e7; }
 
 .header a,
 .header__menu-item,
@@ -89,7 +115,7 @@ header-drawer summary,
 .header__icon--menu,
 details-disclosure > details > summary > span {
   color: #e5e5e7 !important;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .header a:hover,
@@ -102,34 +128,56 @@ header-drawer summary:hover {
 .header__active-menu-item,
 .header__menu-item--active {
   color: var(--atelier-gold) !important;
-  border-bottom-color: var(--atelier-gold) !important;
 }
 
-/* Logo */
+/* Elegant underline effect for nav items */
+.header__menu-item {
+  position: relative;
+}
+
+.header__menu-item::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--atelier-gold);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.header__menu-item:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Logo pulse on hover */
 .header__heading-logo {
   filter: brightness(1.1) contrast(1.05);
+  transition: filter 0.4s ease, transform 0.4s ease;
 }
 
-/* Dropdown/Mega Menu */
+.header__heading-link:hover .header__heading-logo {
+  filter: brightness(1.2) contrast(1.1) drop-shadow(0 0 15px rgba(197, 168, 128, 0.3));
+  transform: scale(1.03);
+}
+
+/* Dropdown & Mega Menu */
 .header__submenu,
 .mega-menu__content,
 .header__menu-item details-disclosure > details > div {
   background-color: rgba(13, 13, 15, 0.98) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--atelier-border) !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 12px !important;
 }
 
 .header__submenu a,
-.mega-menu__link {
-  color: #e5e5e7 !important;
-}
-
+.mega-menu__link { color: #e5e5e7 !important; }
 .header__submenu a:hover,
-.mega-menu__link:hover {
-  color: var(--atelier-gold) !important;
-}
+.mega-menu__link:hover { color: var(--atelier-gold) !important; }
 
 /* Mobile Drawer */
 .menu-drawer,
@@ -137,39 +185,33 @@ header-drawer summary:hover {
   background-color: #0d0d0f !important;
   color: #e5e5e7 !important;
 }
-
 .menu-drawer a,
 .menu-drawer__menu-item,
-.menu-drawer summary {
-  color: #e5e5e7 !important;
-}
-
+.menu-drawer summary { color: #e5e5e7 !important; }
 .menu-drawer a:hover,
-.menu-drawer__menu-item:hover {
-  color: var(--atelier-gold) !important;
-}
-
+.menu-drawer__menu-item:hover { color: var(--atelier-gold) !important; }
 .menu-drawer__close-button,
-.drawer__close {
-  color: #e5e5e7 !important;
-}
+.drawer__close { color: #e5e5e7 !important; }
 
 /* Cart count bubble */
 .cart-count-bubble {
   background-color: var(--atelier-gold) !important;
   color: #0b0c10 !important;
+  font-weight: 700;
 }
 
 /* Announcement bar */
 .announcement-bar {
-  background-color: var(--atelier-gold) !important;
+  background: linear-gradient(90deg, var(--atelier-gold-dark), var(--atelier-gold), var(--atelier-gold-dark)) !important;
   border-bottom: none !important;
 }
-
 .announcement-bar a,
 .announcement-bar__message {
   color: #0b0c10 !important;
   font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 
 /* Predictive search */
@@ -177,29 +219,42 @@ header-drawer summary:hover {
 .predictive-search__results-groups-wrapper {
   background-color: rgba(13, 13, 15, 0.98) !important;
   border: 1px solid var(--atelier-border) !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 12px !important;
 }
 
 /* ============================================
    HERO (IMAGE BANNER)
    ============================================ */
 .banner {
-  min-height: 90vh;
+  min-height: 92vh;
 }
 
 .banner__heading {
-  font-size: clamp(2.5rem, 6vw, 5rem) !important;
+  font-size: clamp(2.5rem, 7vw, 5.5rem) !important;
   color: var(--atelier-gold) !important;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  text-shadow: 0 2px 40px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.1em;
+  text-shadow: 0 4px 60px rgba(0, 0, 0, 0.7);
+  animation: heroTitleReveal 1.2s ease-out;
+}
+
+@keyframes heroTitleReveal {
+  from { opacity: 0; transform: translateY(40px); letter-spacing: 0.3em; }
+  to { opacity: 1; transform: translateY(0); letter-spacing: 0.1em; }
 }
 
 .banner__text {
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  font-size: clamp(0.8rem, 1.5vw, 1.1rem);
   opacity: 0.85;
+  animation: heroSubReveal 1.2s ease-out 0.3s both;
+}
+
+@keyframes heroSubReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 0.85; transform: translateY(0); }
 }
 
 .banner__box {
@@ -208,26 +263,43 @@ header-drawer summary:hover {
   box-shadow: none !important;
 }
 
+.banner__buttons {
+  animation: heroButtonReveal 1s ease-out 0.6s both;
+}
+
+@keyframes heroButtonReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .banner__buttons .button--primary {
   background-color: var(--atelier-gold) !important;
   color: #0b0c10 !important;
   border: none !important;
   font-weight: 700;
+  padding: 14px 36px !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .banner__buttons .button--secondary,
 .banner__buttons .button--primary + .button {
-  border-color: var(--atelier-gold) !important;
+  border: 1.5px solid var(--atelier-gold) !important;
   color: var(--atelier-gold) !important;
   background: transparent !important;
+  padding: 14px 36px !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .banner__buttons .button--secondary:hover {
-  background-color: rgba(197, 168, 128, 0.15) !important;
+  background-color: rgba(197, 168, 128, 0.12) !important;
 }
 
 /* ============================================
-   SECTION HEADINGS
+   SECTION HEADINGS — LUXURY TREATMENT
    ============================================ */
 .section-header__title,
 .title-wrapper .title,
@@ -235,10 +307,24 @@ header-drawer summary:hover {
 .rich-text__heading,
 .newsletter__heading {
   color: var(--atelier-gold) !important;
+  position: relative;
 }
 
-.title-wrapper-with-link .title-wrapper--self-padded-mobile .title {
-  color: var(--atelier-gold) !important;
+/* Decorative line under section headings */
+.title-wrapper .title::after,
+.rich-text__heading::after,
+.newsletter__heading::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: var(--atelier-gold);
+  margin: 1.2rem auto 0;
+  opacity: 0.6;
+}
+
+.title-wrapper--self-padded-mobile .title::after {
+  margin-left: 0;
 }
 
 /* View all links */
@@ -246,24 +332,23 @@ header-drawer summary:hover {
 .center a.link,
 .title-wrapper-with-link a {
   color: var(--atelier-gold) !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: 600;
   transition: opacity 0.3s ease;
 }
 
 .view-all a:hover,
-.center a.link:hover,
 .title-wrapper-with-link a:hover {
-  opacity: 0.75;
+  opacity: 0.7;
 }
 
 /* ============================================
-   PRODUCT CARDS
+   PRODUCT CARDS — PREMIUM TREATMENT
    ============================================ */
 .card-wrapper {
-  transition: transform 0.45s var(--atelier-transition);
-}
-
-.card-wrapper:hover {
-  transform: translateY(-8px);
+  transition: transform 0.5s var(--atelier-transition);
 }
 
 .card,
@@ -273,13 +358,32 @@ header-drawer summary:hover {
   overflow: hidden;
   border: 1px solid var(--atelier-border) !important;
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
 }
 
-.card:hover,
-.card--standard:hover,
-.card--card:hover {
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent 30%, rgba(197, 168, 128, 0.2) 50%, transparent 70%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover {
   border-color: var(--atelier-border-hover) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), var(--atelier-glow) !important;
 }
 
 .card__inner {
@@ -293,14 +397,17 @@ header-drawer summary:hover {
 .card__heading a {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
 }
 
-.card__information {
-  padding-top: 0.8rem;
+.card__heading a:hover {
+  color: var(--atelier-gold) !important;
 }
 
-/* Product card images */
+.card__information { padding-top: 0.8rem; }
+
+/* Card images */
 .card__media,
 .media--transparent {
   border-radius: 16px 16px 0 0 !important;
@@ -308,11 +415,11 @@ header-drawer summary:hover {
 }
 
 .card__media img {
-  transition: transform 0.6s var(--atelier-transition);
+  transition: transform 0.7s var(--atelier-transition);
 }
 
 .card-wrapper:hover .card__media img {
-  transform: scale(1.04);
+  transform: scale(1.06);
 }
 
 /* Prices */
@@ -324,16 +431,10 @@ header-drawer summary:hover {
   font-family: 'Inter', sans-serif;
 }
 
-.price-item--sale {
-  color: var(--atelier-gold) !important;
-}
+.price-item--sale { color: var(--atelier-gold) !important; }
+.price-item--last s, .price .price-item--compare { opacity: 0.45; }
 
-.price-item--last s,
-.price .price-item--compare {
-  opacity: 0.5;
-}
-
-/* Quick add button */
+/* Quick add */
 .quick-add__submit,
 .button.button--full-width.button--secondary {
   background-color: var(--atelier-gold) !important;
@@ -341,21 +442,22 @@ header-drawer summary:hover {
   border: none !important;
   border-radius: 8px !important;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.8rem !important;
   transition: all 0.3s ease;
 }
 
 .quick-add__submit:hover {
   background-color: var(--atelier-gold-light) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(197, 168, 128, 0.25);
+  box-shadow: 0 8px 25px rgba(197, 168, 128, 0.25);
 }
 
 /* ============================================
-   ARTICLE CARDS (BLOG)
+   ARTICLE CARDS — EDITORIAL STYLE
    ============================================ */
 .article-card-wrapper {
-  transition: transform 0.45s var(--atelier-transition);
+  transition: transform 0.5s var(--atelier-transition);
 }
 
 .article-card-wrapper:hover {
@@ -373,20 +475,28 @@ header-drawer summary:hover {
 .article-card:hover,
 .card.article-card:hover {
   border-color: var(--atelier-border-hover) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), var(--atelier-glow) !important;
 }
 
 .article-card__title a {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.article-card__title a:hover {
+  color: var(--atelier-gold) !important;
 }
 
 .article-card__info {
-  color: rgba(197, 168, 128, 0.7);
+  color: rgba(197, 168, 128, 0.6);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 
 /* ============================================
-   BUTTONS
+   BUTTONS — LUXURY INTERACTIONS
    ============================================ */
 .button,
 .shopify-challenge__button,
@@ -394,42 +504,63 @@ button.button,
 .shopify-payment-button__button {
   border-radius: 8px !important;
   font-weight: 700 !important;
-  letter-spacing: 0.04em;
-  transition: all 0.3s var(--atelier-transition) !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  transition: all 0.35s var(--atelier-transition) !important;
+  position: relative;
+  overflow: hidden;
 }
 
 .button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
-.button--primary,
-.button--has-spinner {
+/* Gold shimmer effect on primary buttons */
+.button--primary {
   background-color: var(--atelier-gold) !important;
   color: #0b0c10 !important;
   border: none !important;
 }
 
-.button--primary:hover,
-.button--has-spinner:hover {
+.button--primary::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.button--primary:hover::after {
+  transform: translateX(100%);
+}
+
+.button--primary:hover {
   background-color: var(--atelier-gold-light) !important;
 }
 
 .button--secondary {
-  border: 2px solid var(--atelier-gold) !important;
+  border: 1.5px solid var(--atelier-gold) !important;
   color: var(--atelier-gold) !important;
   background: transparent !important;
 }
 
 .button--secondary:hover {
-  background-color: rgba(197, 168, 128, 0.1) !important;
+  background-color: rgba(197, 168, 128, 0.08) !important;
 }
 
-.button--tertiary {
-  color: var(--atelier-gold) !important;
-}
+.button--tertiary { color: var(--atelier-gold) !important; }
 
-/* Shopify Pay / Dynamic Checkout */
+/* Shopify Pay */
 .shopify-payment-button__button--unbranded {
   background-color: var(--atelier-gold) !important;
   color: #0b0c10 !important;
@@ -437,7 +568,7 @@ button.button,
 }
 
 /* ============================================
-   FORM INPUTS
+   FORM INPUTS — REFINED
    ============================================ */
 .field__input,
 .select__select,
@@ -445,8 +576,9 @@ button.button,
 .customer .field textarea,
 textarea.field__input {
   border-radius: 8px !important;
-  border-color: var(--atelier-border) !important;
+  border: 1px solid var(--atelier-border) !important;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: rgba(26, 26, 28, 0.5) !important;
 }
 
 .field__input:focus,
@@ -454,12 +586,14 @@ textarea.field__input {
 textarea.field__input:focus,
 .customer .field input:focus {
   border-color: var(--atelier-gold) !important;
-  box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15) !important;
+  box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.12) !important;
   outline: none !important;
 }
 
 .field__label {
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
 }
 
 /* ============================================
@@ -467,10 +601,6 @@ textarea.field__input:focus,
    ============================================ */
 .newsletter-form__field-wrapper .field__input {
   border-color: rgba(197, 168, 128, 0.3) !important;
-}
-
-.newsletter-form__field-wrapper .field__input:focus {
-  border-color: var(--atelier-gold) !important;
 }
 
 .newsletter-form__button {
@@ -488,25 +618,26 @@ textarea.field__input:focus,
    ============================================ */
 .contact .field__input,
 .contact textarea {
-  border-color: rgba(197, 168, 128, 0.3) !important;
+  border-color: rgba(197, 168, 128, 0.25) !important;
 }
 
 .contact .field__input:focus,
 .contact textarea:focus {
   border-color: var(--atelier-gold) !important;
-  box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15) !important;
+  box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.12) !important;
 }
 
 /* ============================================
-   RICH TEXT SECTIONS
+   RICH TEXT — EDITORIAL
    ============================================ */
 .rich-text__wrapper {
-  max-width: 900px;
+  max-width: 850px;
 }
 
 .rich-text__text p {
-  line-height: 1.85;
-  opacity: 0.85;
+  line-height: 1.9;
+  opacity: 0.8;
+  font-size: 1.05rem;
 }
 
 .rich-text__buttons .button--primary {
@@ -515,7 +646,24 @@ textarea.field__input:focus,
 }
 
 /* ============================================
-   CART DRAWER
+   IMAGE WITH TEXT — PREMIUM LAYOUT
+   ============================================ */
+.image-with-text .media {
+  border-radius: 16px !important;
+  overflow: hidden;
+  border: 1px solid var(--atelier-border);
+}
+
+.image-with-text__content {
+  padding: 3rem !important;
+}
+
+.image-with-text h2 {
+  color: var(--atelier-gold) !important;
+}
+
+/* ============================================
+   CART DRAWER — DARK LUXURY
    ============================================ */
 .drawer {
   background-color: #0d0d0f !important;
@@ -523,97 +671,73 @@ textarea.field__input:focus,
   border-left: 1px solid var(--atelier-border) !important;
 }
 
-.drawer__header {
-  border-bottom: 1px solid var(--atelier-border) !important;
-}
+.drawer__header { border-bottom: 1px solid var(--atelier-border) !important; }
+.drawer__footer { border-top: 1px solid var(--atelier-border) !important; }
+.drawer__close { color: #e5e5e7 !important; }
+.cart-drawer__overlay { background-color: rgba(0, 0, 0, 0.65) !important; }
 
-.drawer__footer {
-  border-top: 1px solid var(--atelier-border) !important;
-}
-
-.drawer__close {
-  color: #e5e5e7 !important;
-}
-
-.cart-drawer__overlay {
-  background-color: rgba(0, 0, 0, 0.6) !important;
-}
-
-/* Cart notification */
 .cart-notification-wrapper {
   background-color: var(--atelier-surface) !important;
   border: 1px solid var(--atelier-border) !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* Cart items */
-.cart-item__name {
-  font-weight: 600;
-}
-
-.cart-item__price-wrapper .price {
-  color: var(--atelier-gold) !important;
-}
+.cart-item__name { font-weight: 600; }
+.cart-item__price-wrapper .price { color: var(--atelier-gold) !important; }
 
 /* ============================================
-   PRODUCT PAGE
+   PRODUCT PAGE — IMMERSIVE DETAIL
    ============================================ */
 .product__title {
   font-family: 'Playfair Display', serif !important;
   letter-spacing: 0.03em;
+  font-size: 2.5rem !important;
 }
 
 .product__text .price .money,
 .product .price-item--regular {
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: var(--atelier-gold) !important;
   font-weight: 700;
 }
 
-/* Variant picker */
 .product-form__input label,
 .variant-input__label {
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
-/* Buy buttons on product page */
 .product-form__submit {
   background-color: var(--atelier-gold) !important;
   color: #0b0c10 !important;
   border: none !important;
   border-radius: 8px !important;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  min-height: 52px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  min-height: 56px;
+  font-size: 0.9rem !important;
 }
 
 .product-form__submit:hover {
   background-color: var(--atelier-gold-light) !important;
 }
 
-/* Collapsible tabs */
 .product__accordion .accordion summary {
   border-color: var(--atelier-border) !important;
 }
 
 .product__accordion .accordion .summary__title {
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
 }
 
-/* Media gallery */
-.product__media-wrapper {
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.product__media-item {
-  border-radius: 12px !important;
-  overflow: hidden;
-}
+.product__media-wrapper { border-radius: 16px; overflow: hidden; }
+.product__media-item { border-radius: 16px !important; overflow: hidden; }
 
 /* ============================================
    COLLECTION PAGE
@@ -623,64 +747,34 @@ textarea.field__input:focus,
   color: var(--atelier-gold) !important;
 }
 
-/* Facets / Filters */
-.facets__wrapper {
-  border-color: var(--atelier-border) !important;
-}
-
-.facets__disclosure label,
-.facets__summary span {
-  letter-spacing: 0.04em;
-}
-
-.active-facets__button {
-  border-color: var(--atelier-gold) !important;
-}
-
-/* Sort dropdown */
-.collection-sort-select,
-.facet-filters__sort select {
-  border-color: var(--atelier-border) !important;
-}
+.facets__wrapper { border-color: var(--atelier-border) !important; }
+.active-facets__button { border-color: var(--atelier-gold) !important; }
 
 /* ============================================
-   FOOTER
+   FOOTER — REFINED
    ============================================ */
 .footer {
   border-top: 1px solid var(--atelier-border) !important;
 }
 
-.footer a {
-  transition: color 0.3s ease;
-}
-
-.footer a:hover {
-  color: var(--atelier-gold) !important;
-}
+.footer a { transition: color 0.3s ease; }
+.footer a:hover { color: var(--atelier-gold) !important; }
 
 .footer__title {
   font-family: 'Playfair Display', serif !important;
   color: var(--atelier-gold) !important;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.9rem !important;
 }
 
 .footer__content-bottom {
   border-top: 1px solid var(--atelier-border) !important;
 }
 
-/* Social icons */
-.footer .social-icons a {
-  transition: opacity 0.3s ease;
-}
-
-.footer .social-icons a:hover {
-  opacity: 0.7;
-}
-
-/* Payment icons */
-.footer .list-payment {
-  opacity: 0.6;
-}
+.footer .social-icons a { transition: opacity 0.3s ease, transform 0.3s ease; }
+.footer .social-icons a:hover { opacity: 0.7; transform: translateY(-2px); }
+.footer .list-payment { opacity: 0.5; }
 
 /* ============================================
    BADGES
@@ -688,9 +782,9 @@ textarea.field__input:focus,
 .badge {
   border-radius: 4px !important;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
 }
 
 /* ============================================
@@ -708,7 +802,7 @@ textarea.field__input:focus,
 }
 
 /* ============================================
-   BLOG PAGE
+   BLOG & ARTICLE PAGES
    ============================================ */
 .blog__title {
   font-family: 'Playfair Display', serif !important;
@@ -720,77 +814,41 @@ textarea.field__input:focus,
 }
 
 /* ============================================
-   CUSTOMER ACCOUNT PAGES
+   CUSTOMER ACCOUNT
    ============================================ */
-.customer h1,
-.customer h2 {
+.customer h1, .customer h2 {
   font-family: 'Playfair Display', serif !important;
   color: var(--atelier-gold) !important;
 }
 
 .customer .field input,
-.customer .field textarea {
-  border-color: var(--atelier-border) !important;
-}
+.customer .field textarea { border-color: var(--atelier-border) !important; }
 
 .customer .field input:focus,
-.customer .field textarea:focus {
-  border-color: var(--atelier-gold) !important;
-}
+.customer .field textarea:focus { border-color: var(--atelier-gold) !important; }
 
 /* ============================================
-   GLOBAL TRANSITIONS & ANIMATIONS
+   PASSWORD / COMING SOON
    ============================================ */
-a {
-  transition: color 0.3s ease;
-}
-
-img {
-  transition: transform 0.6s var(--atelier-transition);
-}
-
-/* Subtle fade-in for sections */
-@keyframes atelierFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.shopify-section {
-  animation: atelierFadeIn 0.5s ease-out;
-}
+.password-modal__content { background-color: #0d0d0f !important; }
 
 /* ============================================
-   PASSWORD PAGE (COMING SOON)
+   GLOBAL TRANSITIONS
    ============================================ */
-.password-modal__content {
-  background-color: #0d0d0f !important;
-}
+a { transition: color 0.3s ease; }
 
 /* ============================================
-   RESPONSIVE OVERRIDES
+   RESPONSIVE
    ============================================ */
 @media screen and (max-width: 749px) {
-  .banner__heading {
-    font-size: 2.2rem !important;
-  }
+  .banner__heading { font-size: 2.2rem !important; }
+  .banner { min-height: 75vh; }
+  .card__content { padding: 1rem !important; }
   
-  .banner {
-    min-height: 70vh;
-  }
-  
-  .card__content {
-    padding: 1rem !important;
-  }
-  
-  .master-section-title,
-  .section-header__title {
-    font-size: 2rem;
+  .title-wrapper .title::after,
+  .rich-text__heading::after,
+  .newsletter__heading::after {
+    margin: 1rem auto 0;
   }
 }
 
@@ -798,4 +856,18 @@ img {
   .header-wrapper {
     background-color: rgba(11, 12, 16, 0.98) !important;
   }
+}
+
+/* ============================================
+   LOADING SHIMMER (for images)
+   ============================================ */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.media--loading-shimmer {
+  background: linear-gradient(90deg, var(--atelier-surface) 25%, var(--atelier-surface-light) 50%, var(--atelier-surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
 }

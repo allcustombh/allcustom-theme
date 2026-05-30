@@ -1,52 +1,31 @@
 {
   "sections": {
-    "hero_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "hero_heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Atelier De Horology",
-            "heading_size": "hxxl"
-          }
-        },
-        "hero_text": {
-          "type": "text",
-          "settings": {
-            "text": "Masterpiece Custom Seiko Modifications",
-            "text_style": "subtitle"
-          }
-        },
-        "hero_buttons": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Explore Collection",
-            "button_link_1": "shopify:\/\/collections\/all",
-            "button_style_secondary_1": false,
-            "button_label_2": "Build Your Masterpiece",
-            "button_link_2": "",
-            "button_style_secondary_2": true
-          }
-        }
-      },
-      "block_order": [
-        "hero_heading",
-        "hero_text",
-        "hero_buttons"
-      ],
+    "atelier_hero": {
+      "type": "atelier-hero",
       "settings": {
-        "image_overlay_opacity": 60,
-        "image_height": "large",
-        "desktop_content_position": "middle-center",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-4",
-        "image_behavior": "none",
-        "show_text_box": false,
-        "show_text_below": false,
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": true,
-        "padding_top": 0,
-        "padding_bottom": 0
+        "title": "Atelier De Horology",
+        "subtitle": "Bespoke Seiko Modifications · Bahrain",
+        "cta_label_1": "Explore Collection",
+        "cta_link_1": "shopify:\/\/collections\/all",
+        "cta_label_2": "Build Your Masterpiece",
+        "cta_link_2": "",
+        "bg_color": "#0b0c10",
+        "accent_color": "#c5a880",
+        "particle_count": 80
+      }
+    },
+    "marquee_banner": {
+      "type": "atelier-marquee",
+      "blocks": {
+        "m1": { "type": "text_item", "settings": { "text": "PRECISION" } },
+        "m2": { "type": "text_item", "settings": { "text": "CRAFTSMANSHIP" } },
+        "m3": { "type": "text_item", "settings": { "text": "EXCELLENCE" } },
+        "m4": { "type": "text_item", "settings": { "text": "BESPOKE" } },
+        "m5": { "type": "text_item", "settings": { "text": "BAHRAIN" } }
+      },
+      "block_order": ["m1", "m2", "m3", "m4", "m5"],
+      "settings": {
+        "speed": 30
       }
     },
     "featured_collection": {
@@ -73,48 +52,75 @@
         "quick_add": "standard",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
-        "padding_top": 60,
-        "padding_bottom": 60
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "stats_section": {
+      "type": "atelier-stats",
+      "blocks": {
+        "s1": { "type": "stat_item", "settings": { "number": "500", "suffix": "+", "label": "Watches Modified" } },
+        "s2": { "type": "stat_item", "settings": { "number": "8", "suffix": "+", "label": "Years Experience" } },
+        "s3": { "type": "stat_item", "settings": { "number": "15", "suffix": "+", "label": "Countries Served" } },
+        "s4": { "type": "stat_item", "settings": { "number": "100", "suffix": "%", "label": "Satisfaction Rate" } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"],
+      "settings": {
+        "bg_color": "#0b0c10"
+      }
+    },
+    "process_section": {
+      "type": "atelier-process",
+      "blocks": {
+        "p1": { "type": "step", "settings": { "title": "Consultation", "description": "We begin with a deep-dive into your vision. Every detail is discussed — from bezel material to lume color, crystal type to case finishing." } },
+        "p2": { "type": "step", "settings": { "title": "Deconstruction", "description": "Your base watch is surgically disassembled. Every component is inspected, catalogued, and prepared for its transformation." } },
+        "p3": { "type": "step", "settings": { "title": "Assembly", "description": "Hand-selected components are precision-fitted by our master watchmakers. Each modification is tested to Swiss-grade tolerances." } },
+        "p4": { "type": "step", "settings": { "title": "Delivery", "description": "Your bespoke timepiece is pressure-tested, professionally photographed, and delivered in a premium presentation case." } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4"],
+      "settings": {
+        "title": "The Craft",
+        "subtitle": "Every Masterpiece Follows a Sacred Process",
+        "bg_color": "#0b0c10"
       }
     },
     "customizer_cta": {
-      "type": "rich-text",
+      "type": "image-with-text",
       "blocks": {
-        "cta_heading": {
+        "iwt_heading": {
           "type": "heading",
           "settings": {
             "heading": "Build Your Masterpiece",
             "heading_size": "h1"
           }
         },
-        "cta_text": {
+        "iwt_text": {
           "type": "text",
           "settings": {
-            "text": "<p>Design your dream timepiece with our interactive Watch Configurator. Select your base, dial, bezel, and more — each piece hand-assembled by our master watchmakers with surgical precision.</p>"
+            "text": "<p>Design your dream timepiece with our interactive Watch Configurator. Select your base model, dial, bezel, hands, and more — each piece hand-assembled by our master watchmakers with surgical precision and an obsessive attention to detail.</p>",
+            "text_style": "body"
           }
         },
-        "cta_button": {
+        "iwt_button": {
           "type": "button",
           "settings": {
             "button_label": "Launch Customizer",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "button_link": ""
           }
         }
       },
-      "block_order": [
-        "cta_heading",
-        "cta_text",
-        "cta_button"
-      ],
+      "block_order": ["iwt_heading", "iwt_text", "iwt_button"],
       "settings": {
+        "image_width": "medium",
+        "layout": "image_first",
+        "desktop_image_width": "medium",
         "desktop_content_position": "center",
-        "content_alignment": "center",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-2",
         "color_scheme": "scheme-2",
-        "full_width": true,
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -132,8 +138,8 @@
         "show_date": true,
         "show_author": false,
         "show_view_all": true,
-        "padding_top": 60,
-        "padding_bottom": 60
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     },
     "newsletter": {
@@ -157,11 +163,7 @@
           "settings": {}
         }
       },
-      "block_order": [
-        "nl_heading",
-        "nl_paragraph",
-        "nl_form"
-      ],
+      "block_order": ["nl_heading", "nl_paragraph", "nl_form"],
       "settings": {
         "color_scheme": "scheme-5",
         "full_width": true,
@@ -172,6 +174,14 @@
     "about_section": {
       "type": "rich-text",
       "blocks": {
+        "about_caption": {
+          "type": "caption",
+          "settings": {
+            "caption": "EST. BAHRAIN",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "small"
+          }
+        },
         "about_heading": {
           "type": "heading",
           "settings": {
@@ -182,13 +192,13 @@
         "about_text": {
           "type": "text",
           "settings": {
-            "text": "<p>We are masters of horological modification. Every piece is stripped down, inspected, and rebuilt using surgical-grade components. We do not just assemble watches — we engineer bespoke identities for the wrist. Based in Bahrain, our atelier combines Middle Eastern artistry with Swiss-level precision to create timepieces that transcend ordinary craftsmanship.</p>"
+            "text": "<p>We are masters of horological modification. Every piece is stripped down, inspected, and rebuilt using surgical-grade components. We do not just assemble watches — we engineer bespoke identities for the wrist. Based in the Kingdom of Bahrain, our atelier combines Middle Eastern artistry with Swiss-level precision to create timepieces that transcend ordinary craftsmanship and become true collectibles.</p>"
           }
         },
         "about_button": {
           "type": "button",
           "settings": {
-            "button_label": "Learn More",
+            "button_label": "Our Story",
             "button_link": "",
             "button_style_secondary": true,
             "button_label_2": "",
@@ -197,11 +207,7 @@
           }
         }
       },
-      "block_order": [
-        "about_heading",
-        "about_text",
-        "about_button"
-      ],
+      "block_order": ["about_caption", "about_heading", "about_text", "about_button"],
       "settings": {
         "desktop_content_position": "center",
         "content_alignment": "center",
@@ -223,8 +229,11 @@
     }
   },
   "order": [
-    "hero_banner",
+    "atelier_hero",
+    "marquee_banner",
     "featured_collection",
+    "stats_section",
+    "process_section",
     "customizer_cta",
     "featured_blog",
     "newsletter",

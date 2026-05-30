@@ -1,0 +1,181 @@
+{{ 'section-' | append: section.id | prepend: '#shopify-section-' }}
+
+<style>
+  .atelier-marquee {
+    --marquee-speed: {{ section.settings.speed }}s;
+    background-color: var(--atelier-surface, #1a1a1c);
+    border-top: 1px solid var(--atelier-gold, #c5a880);
+    border-bottom: 1px solid var(--atelier-gold, #c5a880);
+    overflow: hidden;
+    position: relative;
+    padding: 18px 0;
+    width: 100%;
+  }
+
+  .atelier-marquee__track-wrapper {
+    display: flex;
+    width: max-content;
+    animation: atelier-marquee-scroll var(--marquee-speed) linear infinite;
+  }
+
+  .atelier-marquee__track {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .atelier-marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    white-space: nowrap;
+    color: var(--atelier-gold, #c5a880);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .atelier-marquee__separator {
+    display: inline-block;
+    color: var(--atelier-gold, #c5a880);
+    font-size: 0.55rem;
+    margin: 0 2em;
+    opacity: 0.7;
+    line-height: 1;
+  }
+
+  /* Fade edges for a polished look */
+  .atelier-marquee::before,
+  .atelier-marquee::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .atelier-marquee::before {
+    left: 0;
+    background: linear-gradient(to right, var(--atelier-surface, #1a1a1c), transparent);
+  }
+
+  .atelier-marquee::after {
+    right: 0;
+    background: linear-gradient(to left, var(--atelier-surface, #1a1a1c), transparent);
+  }
+
+  /* Pause on hover for accessibility */
+  .atelier-marquee:hover .atelier-marquee__track-wrapper {
+    animation-play-state: paused;
+  }
+
+  @keyframes atelier-marquee-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Responsive adjustments */
+  @media screen and (max-width: 749px) {
+    .atelier-marquee {
+      padding: 14px 0;
+    }
+
+    .atelier-marquee__item {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+    }
+
+    .atelier-marquee__separator {
+      margin: 0 1.4em;
+      font-size: 0.45rem;
+    }
+
+    .atelier-marquee::before,
+    .atelier-marquee::after {
+      width: 40px;
+    }
+  }
+</style>
+
+<div class="atelier-marquee" role="marquee" aria-label="Brand highlights">
+  {%- if section.blocks.size > 0 -%}
+    <div class="atelier-marquee__track-wrapper">
+      {%- comment -%} Render the track twice for seamless looping {%- endcomment -%}
+      {%- for copy in (1..2) -%}
+        <div class="atelier-marquee__track">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'text_item' -%}
+              <span class="atelier-marquee__item" {{ block.shopify_attributes }}>
+                {{- block.settings.text -}}
+              </span>
+              <span class="atelier-marquee__separator" aria-hidden="true">◆</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Atelier Marquee",
+  "tag": "section",
+  "class": "atelier-marquee-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Scroll Speed",
+      "info": "Duration in seconds for one full cycle. Lower = faster.",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "default": 30,
+      "unit": "s"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_item",
+      "name": "Text Item",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "PRECISION"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Atelier Marquee",
+      "blocks": [
+        { "type": "text_item", "settings": { "text": "PRECISION" } },
+        { "type": "text_item", "settings": { "text": "CRAFTSMANSHIP" } },
+        { "type": "text_item", "settings": { "text": "EXCELLENCE" } },
+        { "type": "text_item", "settings": { "text": "BESPOKE" } },
+        { "type": "text_item", "settings": { "text": "BAHRAIN" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
