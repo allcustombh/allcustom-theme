@@ -74,9 +74,9 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "collection": "",
+        "collection": "frontpage",
         "products_to_show": 6,
-        "title": "The Collection",
+        "title": "",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -95,8 +95,8 @@
         "quick_add": "standard",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
-        "padding_top": 72,
-        "padding_bottom": 72
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "stats_section": {
@@ -105,7 +105,7 @@
         "s1": {
           "type": "stat_item",
           "settings": {
-            "number": "500",
+            "number": "20",
             "suffix": "+",
             "label": "Watches Modified"
           }
@@ -113,7 +113,7 @@
         "s2": {
           "type": "stat_item",
           "settings": {
-            "number": "8",
+            "number": "1",
             "suffix": "+",
             "label": "Years Experience"
           }
@@ -121,7 +121,7 @@
         "s3": {
           "type": "stat_item",
           "settings": {
-            "number": "15",
+            "number": "6",
             "suffix": "+",
             "label": "Countries Served"
           }
@@ -166,7 +166,7 @@
           "type": "step",
           "settings": {
             "title": "Assembly",
-            "description": "Hand-selected components are precision-fitted by our master watchmakers. Each modification is tested to Swiss-grade tolerances."
+            "description": "Hand-selected components are precision-fitted by our master watchmaker. Each modification is tested to high-grade tolerances."
           }
         },
         "p4": {
@@ -184,6 +184,7 @@
         "p4"
       ],
       "settings": {
+        "process_image": "shopify://shop_images/IMG_20260530_202152_5f552767-326a-4c40-9d64-0087a4212bf3.png",
         "title": "The Craft",
         "subtitle": "Every Masterpiece Follows a Sacred Process",
         "bg_color": "#0b0c10"
@@ -221,7 +222,8 @@
         "iwt_button"
       ],
       "settings": {
-        "height": "adapt",
+        "image": "shopify://shop_images/WhatsApp_Image_2026-05-30_at_20.04.24_1.jpg",
+        "height": "medium",
         "desktop_image_width": "medium",
         "layout": "image_first",
         "image_behavior": "none",
@@ -231,14 +233,14 @@
         "mobile_content_alignment": "left",
         "section_color_scheme": "scheme-2",
         "color_scheme": "scheme-2",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "padding_top": 32,
+        "padding_bottom": 32
       }
     },
     "featured_blog": {
       "type": "featured-blog",
       "settings": {
-        "blog": "",
+        "blog": "news",
         "post_limit": 3,
         "heading": "The Journal",
         "heading_size": "h1",
@@ -248,8 +250,8 @@
         "show_date": true,
         "show_author": false,
         "color_scheme": "scheme-1",
-        "padding_top": 72,
-        "padding_bottom": 72
+        "padding_top": 40,
+        "padding_bottom": 28
       }
     },
     "newsletter": {
@@ -299,7 +301,7 @@
         "about_heading": {
           "type": "heading",
           "settings": {
-            "heading": "The Atelier",
+            "heading": "The Workshop",
             "heading_size": "h1"
           }
         },
@@ -313,7 +315,7 @@
           "type": "button",
           "settings": {
             "button_label": "Our Story",
-            "button_link": "",
+            "button_link": "shopify://pages/about-us",
             "button_style_secondary": true,
             "button_label_2": "",
             "button_link_2": "",
