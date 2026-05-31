@@ -1,10 +1,35 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
-      "type": "main-404"
+      "type": "main-404",
+      "disabled": true,
+      "settings": {}
+    },
+    "customizer_CaQAHL": {
+      "type": "customizer",
+      "name": "Luxury Customizer",
+      "settings": {
+        "title": "Build Your Own Watch",
+        "subtitle": "Select each component to craft a truly unique piece of horological art. Your dream timepiece, assembled to order.",
+        "step_1_label": "Crystal",
+        "step_2_label": "Dial",
+        "step_3_label": "Bezel",
+        "step_4_label": "Case",
+        "step_5_label": "Strap"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "customizer_CaQAHL"
   ]
 }
