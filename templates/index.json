@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "atelier_hero": {
@@ -6,9 +15,9 @@
         "title": "Atelier De Horology",
         "subtitle": "Bespoke Seiko Modifications · Bahrain",
         "cta_label_1": "Explore Collection",
-        "cta_link_1": "shopify:\/\/collections\/all",
+        "cta_link_1": "shopify://collections/all",
         "cta_label_2": "Build Your Masterpiece",
-        "cta_link_2": "",
+        "cta_link_2": "shopify://pages/customizer-atelier",
         "bg_color": "#0b0c10",
         "accent_color": "#c5a880",
         "particle_count": 80
@@ -17,32 +26,64 @@
     "marquee_banner": {
       "type": "atelier-marquee",
       "blocks": {
-        "m1": { "type": "text_item", "settings": { "text": "PRECISION" } },
-        "m2": { "type": "text_item", "settings": { "text": "CRAFTSMANSHIP" } },
-        "m3": { "type": "text_item", "settings": { "text": "EXCELLENCE" } },
-        "m4": { "type": "text_item", "settings": { "text": "BESPOKE" } },
-        "m5": { "type": "text_item", "settings": { "text": "BAHRAIN" } }
+        "m1": {
+          "type": "text_item",
+          "settings": {
+            "text": "PRECISION"
+          }
+        },
+        "m2": {
+          "type": "text_item",
+          "settings": {
+            "text": "CRAFTSMANSHIP"
+          }
+        },
+        "m3": {
+          "type": "text_item",
+          "settings": {
+            "text": "EXCELLENCE"
+          }
+        },
+        "m4": {
+          "type": "text_item",
+          "settings": {
+            "text": "BESPOKE"
+          }
+        },
+        "m5": {
+          "type": "text_item",
+          "settings": {
+            "text": "BAHRAIN"
+          }
+        }
       },
-      "block_order": ["m1", "m2", "m3", "m4", "m5"],
+      "block_order": [
+        "m1",
+        "m2",
+        "m3",
+        "m4",
+        "m5"
+      ],
       "settings": {
-        "speed": 30
+        "speed": 30,
+        "color_scheme": ""
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
+        "collection": "",
+        "products_to_show": 6,
         "title": "The Collection",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "collection": "",
-        "products_to_show": 6,
         "columns_desktop": 3,
+        "enable_desktop_slider": false,
         "full_width": false,
         "show_view_all": true,
         "view_all_style": "outline",
-        "enable_desktop_slider": false,
         "color_scheme": "scheme-1",
         "image_ratio": "portrait",
         "image_shape": "default",
@@ -59,12 +100,45 @@
     "stats_section": {
       "type": "atelier-stats",
       "blocks": {
-        "s1": { "type": "stat_item", "settings": { "number": "500", "suffix": "+", "label": "Watches Modified" } },
-        "s2": { "type": "stat_item", "settings": { "number": "8", "suffix": "+", "label": "Years Experience" } },
-        "s3": { "type": "stat_item", "settings": { "number": "15", "suffix": "+", "label": "Countries Served" } },
-        "s4": { "type": "stat_item", "settings": { "number": "100", "suffix": "%", "label": "Satisfaction Rate" } }
+        "s1": {
+          "type": "stat_item",
+          "settings": {
+            "number": "500",
+            "suffix": "+",
+            "label": "Watches Modified"
+          }
+        },
+        "s2": {
+          "type": "stat_item",
+          "settings": {
+            "number": "8",
+            "suffix": "+",
+            "label": "Years Experience"
+          }
+        },
+        "s3": {
+          "type": "stat_item",
+          "settings": {
+            "number": "15",
+            "suffix": "+",
+            "label": "Countries Served"
+          }
+        },
+        "s4": {
+          "type": "stat_item",
+          "settings": {
+            "number": "100",
+            "suffix": "%",
+            "label": "Satisfaction Rate"
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3", "s4"],
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
       "settings": {
         "bg_color": "#0b0c10"
       }
@@ -72,12 +146,41 @@
     "process_section": {
       "type": "atelier-process",
       "blocks": {
-        "p1": { "type": "step", "settings": { "title": "Consultation", "description": "We begin with a deep-dive into your vision. Every detail is discussed — from bezel material to lume color, crystal type to case finishing." } },
-        "p2": { "type": "step", "settings": { "title": "Deconstruction", "description": "Your base watch is surgically disassembled. Every component is inspected, catalogued, and prepared for its transformation." } },
-        "p3": { "type": "step", "settings": { "title": "Assembly", "description": "Hand-selected components are precision-fitted by our master watchmakers. Each modification is tested to Swiss-grade tolerances." } },
-        "p4": { "type": "step", "settings": { "title": "Delivery", "description": "Your bespoke timepiece is pressure-tested, professionally photographed, and delivered in a premium presentation case." } }
+        "p1": {
+          "type": "step",
+          "settings": {
+            "title": "Consultation",
+            "description": "We begin with a deep-dive into your vision. Every detail is discussed — from bezel material to lume color, crystal type to case finishing."
+          }
+        },
+        "p2": {
+          "type": "step",
+          "settings": {
+            "title": "Deconstruction",
+            "description": "Your base watch is surgically disassembled. Every component is inspected, catalogued, and prepared for its transformation."
+          }
+        },
+        "p3": {
+          "type": "step",
+          "settings": {
+            "title": "Assembly",
+            "description": "Hand-selected components are precision-fitted by our master watchmakers. Each modification is tested to Swiss-grade tolerances."
+          }
+        },
+        "p4": {
+          "type": "step",
+          "settings": {
+            "title": "Delivery",
+            "description": "Your bespoke timepiece is pressure-tested, professionally photographed, and delivered in a premium presentation case."
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
       "settings": {
         "title": "The Craft",
         "subtitle": "Every Masterpiece Follows a Sacred Process",
@@ -105,22 +208,27 @@
           "type": "button",
           "settings": {
             "button_label": "Launch Customizer",
-            "button_link": "/pages/luxury-customizer"
+            "button_link": "/pages/luxury-customizer",
+            "button_style_secondary": false
           }
         }
       },
-      "block_order": ["iwt_heading", "iwt_text", "iwt_button"],
+      "block_order": [
+        "iwt_heading",
+        "iwt_text",
+        "iwt_button"
+      ],
       "settings": {
-        "image_width": "medium",
-        "layout": "image_first",
+        "height": "adapt",
         "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
         "desktop_content_position": "center",
         "desktop_content_alignment": "left",
-        "content_layout": "no-overlap",
+        "mobile_content_alignment": "left",
         "section_color_scheme": "scheme-2",
         "color_scheme": "scheme-2",
-        "image_behavior": "none",
-        "mobile_content_alignment": "left",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -128,16 +236,16 @@
     "featured_blog": {
       "type": "featured-blog",
       "settings": {
-        "heading": "The Journal",
-        "heading_size": "h1",
         "blog": "",
         "post_limit": 3,
+        "heading": "The Journal",
+        "heading_size": "h1",
         "columns_desktop": 3,
-        "color_scheme": "scheme-1",
+        "show_view_all": true,
         "show_image": true,
         "show_date": true,
         "show_author": false,
-        "show_view_all": true,
+        "color_scheme": "scheme-1",
         "padding_top": 72,
         "padding_bottom": 72
       }
@@ -163,7 +271,11 @@
           "settings": {}
         }
       },
-      "block_order": ["nl_heading", "nl_paragraph", "nl_form"],
+      "block_order": [
+        "nl_heading",
+        "nl_paragraph",
+        "nl_form"
+      ],
       "settings": {
         "color_scheme": "scheme-5",
         "full_width": true,
@@ -207,7 +319,12 @@
           }
         }
       },
-      "block_order": ["about_caption", "about_heading", "about_text", "about_button"],
+      "block_order": [
+        "about_caption",
+        "about_heading",
+        "about_text",
+        "about_button"
+      ],
       "settings": {
         "desktop_content_position": "center",
         "content_alignment": "center",
