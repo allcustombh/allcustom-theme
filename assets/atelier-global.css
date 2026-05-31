@@ -87,10 +87,10 @@ h1, h2, h3, h4, h5, h6,
    HEADER & NAVIGATION
    ============================================ */
 .header-wrapper {
-  background-color: rgba(11, 12, 16, 0.92) !important;
+  background-color: rgba(11, 12, 16, 1) !important;
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--atelier-border) !important;
+  border-bottom: 1px solid rgba(197, 168, 128, 0.3) !important;
   transition: background-color 0.4s ease;
 }
 
@@ -113,9 +113,11 @@ h1, h2, h3, h4, h5, h6,
 .header__heading-link,
 header-drawer summary,
 .header__icon--menu,
-details-disclosure > details > summary > span {
-  color: #e5e5e7 !important;
+details-disclosure > details > summary > span,
+.header__heading-link span {
+  color: #ffffff !important;
   transition: color 0.3s ease, transform 0.3s ease;
+  font-weight: 500;
 }
 
 .header a:hover,
@@ -446,6 +448,18 @@ header-drawer summary:hover {
   text-transform: uppercase;
   font-size: 0.8rem !important;
   transition: all 0.3s ease;
+}
+
+/* Center the quick-add button container */
+.quick-add {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.card__content .quick-add,
+.card__information .quick-add {
+  text-align: center;
 }
 
 .quick-add__submit:hover {
