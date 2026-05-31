@@ -1,56 +1,1758 @@
-<div class="page-width">
-  <section class="customizer-layout">
-    <div class="visualizer-pane">
-      <div id="watchVisualizer">
-        <div class="watch-layers-container" style="position: relative; width: 300px; height: 300px; margin: 0 auto;">
-          <div id="layer-case" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--c-platinum);">[ Case Render ]</div>
-          <div id="layer-dial" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--c-sand);">[ Dial Render ]</div>
-          <div id="layer-bezel" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;"></div>
-          <div id="layer-hands" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;"></div>
+{%- comment -%}
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  ATELIER DE HOROLOGY — Luxury Watch Customizer                 ║
+  ║  Interactive exploded-view watch configurator                   ║
+  ║  Connected to Shopify Admin via collection pickers              ║
+  ║  Dawn v15.4.1 compatible                                       ║
+  ╚══════════════════════════════════════════════════════════════════╝
+{%- endcomment -%}
+
+{%- liquid
+  assign title = section.settings.title | default: 'Build Your Masterpiece'
+  assign subtitle = section.settings.subtitle | default: 'Select each component to craft a truly unique piece of horological art. Your dream timepiece, assembled to order.'
+  assign s1 = section.settings.step_1_label | default: 'Case'
+  assign s2 = section.settings.step_2_label | default: 'Dial'
+  assign s3 = section.settings.step_3_label | default: 'Bezel'
+  assign s4 = section.settings.step_4_label | default: 'Crystal'
+  assign s5 = section.settings.step_5_label | default: 'Strap'
+-%}
+
+{%- capture component_keys -%}cases,dials,bezels,crystals,straps{%- endcapture -%}
+{%- assign comp_keys = component_keys | split: ',' -%}
+
+<style>
+  /* ══════════════════════════════════════════════════
+     LUXURY CUSTOMIZER — Custom Properties
+     ══════════════════════════════════════════════════ */
+  .lc {
+    --lc-gold: #c5a880;
+    --lc-gold-rgb: 197, 168, 128;
+    --lc-gold-light: #e6c598;
+    --lc-bg: #0b0c10;
+    --lc-surface: #1a1a1c;
+    --lc-surface-light: #242428;
+    --lc-border: rgba(197, 168, 128, 0.15);
+    --lc-border-active: rgba(197, 168, 128, 0.6);
+    --lc-text: #e5e5e7;
+    --lc-text-muted: #8a8a8e;
+    --lc-radius: 16px;
+    --lc-radius-sm: 8px;
+    --lc-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--lc-text);
+    background: var(--lc-bg);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .lc *, .lc *::before, .lc *::after { box-sizing: border-box; }
+  .lc h1, .lc h2, .lc h3, .lc h4 {
+    font-family: 'Playfair Display', serif;
+    margin: 0;
+  }
+
+  /* ══════════════════════════════════════════════════
+     PHASE: INTRO / HERO
+     ══════════════════════════════════════════════════ */
+  .lc-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    min-height: 92vh;
+    justify-content: center;
+    position: relative;
+  }
+
+  .lc-intro__caption {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--lc-gold);
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: lcFadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .lc-intro__title {
+    font-size: clamp(2rem, 5.5vw, 3.8rem);
+    color: var(--lc-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: lcFadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .lc-intro__rule {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--lc-gold), transparent);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: lcFadeUp 0.8s ease 0.5s forwards;
+  }
+
+  .lc-intro__subtitle {
+    max-width: 560px;
+    color: var(--lc-text-muted);
+    line-height: 1.8;
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: lcFadeUp 0.8s ease 0.6s forwards;
+  }
+
+  /* ── EXPLODED VIEW ── */
+  .lc-exploded {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto 2rem;
+    opacity: 0;
+    animation: lcFadeUp 1s ease 0.8s forwards;
+  }
+
+  .lc-exploded__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+  }
+
+  .lc-exploded__layer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid var(--lc-border);
+    border-radius: var(--lc-radius);
+    background: rgba(26, 26, 28, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    transition: all 0.4s var(--lc-ease);
+    overflow: hidden;
+  }
+
+  .lc-exploded__layer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(var(--lc-gold-rgb), 0.05), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .lc-exploded__layer:hover {
+    border-color: var(--lc-border-active);
+    box-shadow: 0 0 35px rgba(var(--lc-gold-rgb), 0.12), inset 0 0 30px rgba(var(--lc-gold-rgb), 0.03);
+    transform: translateX(8px);
+  }
+
+  .lc-exploded__layer:hover::before { opacity: 1; }
+
+  .lc-exploded__layer--crystal { animation: lcLayerFloat 5s ease-in-out 0s infinite; }
+  .lc-exploded__layer--bezel   { animation: lcLayerFloat 5s ease-in-out 0.5s infinite; }
+  .lc-exploded__layer--dial    { animation: lcLayerFloat 5s ease-in-out 1s infinite; }
+  .lc-exploded__layer--case    { animation: lcLayerFloat 5s ease-in-out 1.5s infinite; }
+  .lc-exploded__layer--strap   { animation: lcLayerFloat 5s ease-in-out 2s infinite; }
+
+  @keyframes lcLayerFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .lc-exploded__icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(var(--lc-gold-rgb), 0.08);
+    border: 1px solid rgba(var(--lc-gold-rgb), 0.2);
+    color: var(--lc-gold);
+    flex-shrink: 0;
+    font-size: 1.2rem;
+  }
+
+  .lc-exploded__info { flex: 1; text-align: left; }
+
+  .lc-exploded__name {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--lc-text);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .lc-exploded__hint {
+    font-size: 0.72rem;
+    color: var(--lc-text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .lc-exploded__arrow {
+    color: var(--lc-gold);
+    opacity: 0.4;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    font-size: 1rem;
+  }
+
+  .lc-exploded__layer:hover .lc-exploded__arrow {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+
+  /* Start Button */
+  .lc-start-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    padding: 1.1rem 2.5rem;
+    background: var(--lc-gold);
+    color: var(--lc-bg);
+    border: none;
+    border-radius: var(--lc-radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: lcFadeUp 0.8s ease 1.2s forwards;
+  }
+
+  .lc-start-btn:hover {
+    background: var(--lc-gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(var(--lc-gold-rgb), 0.3);
+  }
+
+  /* ══════════════════════════════════════════════════
+     PHASE: MODEL SELECTION
+     ══════════════════════════════════════════════════ */
+  .lc-phase {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .lc-phase__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .lc-phase__caption {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--lc-gold);
+    margin-bottom: 0.8rem;
+  }
+
+  .lc-phase__title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--lc-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+  }
+
+  .lc-phase__subtitle {
+    color: var(--lc-text-muted);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Model Cards */
+  .lc-models-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .lc-model-card {
+    background: var(--lc-surface);
+    border: 1px solid var(--lc-border);
+    border-radius: var(--lc-radius);
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.4s var(--lc-ease);
+    overflow: hidden;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lc-model-card:hover {
+    border-color: var(--lc-border-active);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 40px rgba(var(--lc-gold-rgb), 0.1);
+    transform: translateY(-6px);
+  }
+
+  .lc-model-card__img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--lc-surface-light);
+  }
+
+  .lc-model-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--lc-ease);
+  }
+
+  .lc-model-card:hover .lc-model-card__img img {
+    transform: scale(1.05);
+  }
+
+  .lc-model-card__img--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--lc-text-muted);
+    font-size: 3rem;
+  }
+
+  .lc-model-card__body { padding: 1.5rem; }
+
+  .lc-model-card__name {
+    font-size: 1.2rem;
+    color: var(--lc-gold);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.04em;
+  }
+
+  .lc-model-card__desc {
+    font-size: 0.82rem;
+    color: var(--lc-text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ══════════════════════════════════════════════════
+     PHASE: CONFIGURATOR
+     ══════════════════════════════════════════════════ */
+  .lc-config-layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* ── PREVIEW PANEL ── */
+  .lc-preview {
+    position: sticky;
+    top: 100px;
+    background: var(--lc-surface);
+    border: 1px solid var(--lc-border);
+    border-radius: var(--lc-radius);
+    overflow: hidden;
+  }
+
+  .lc-preview__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--lc-border);
+  }
+
+  .lc-preview__title {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--lc-gold);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
+  .lc-preview__model-name {
+    font-size: 0.7rem;
+    color: var(--lc-text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .lc-preview__visual {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 50%, var(--lc-surface-light) 0%, var(--lc-surface) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lc-preview__visual img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    transition: opacity 0.5s ease;
+  }
+
+  .lc-preview__empty {
+    text-align: center;
+    color: var(--lc-text-muted);
+    font-size: 0.8rem;
+    padding: 2rem;
+  }
+
+  .lc-preview__empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+    opacity: 0.3;
+  }
+
+  .lc-preview__selections {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--lc-border);
+  }
+
+  .lc-preview__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.78rem;
+  }
+
+  .lc-preview__item:last-child { border-bottom: none; }
+
+  .lc-preview__item-label {
+    color: var(--lc-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.68rem;
+  }
+
+  .lc-preview__item-value { color: var(--lc-text); font-weight: 500; }
+  .lc-preview__item-price { color: var(--lc-gold); font-weight: 600; }
+
+  .lc-preview__item--empty .lc-preview__item-value {
+    color: var(--lc-text-muted);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .lc-preview__total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 1.5rem;
+    border-top: 1px solid var(--lc-border);
+    background: rgba(var(--lc-gold-rgb), 0.04);
+  }
+
+  .lc-preview__total-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--lc-text-muted);
+    font-weight: 600;
+  }
+
+  .lc-preview__total-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--lc-gold);
+    font-weight: 700;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .lc-progress {
+    margin-bottom: 2rem;
+  }
+
+  .lc-progress__bar {
+    height: 2px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .lc-progress__fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--lc-gold);
+    border-radius: 2px;
+    transition: width 0.5s var(--lc-ease);
+    width: 0%;
+  }
+
+  .lc-progress__steps {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .lc-progress__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem;
+    transition: all 0.3s ease;
+  }
+
+  .lc-progress__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.15);
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+
+  .lc-progress__step.is-active .lc-progress__dot {
+    border-color: var(--lc-gold);
+    background: var(--lc-gold);
+    box-shadow: 0 0 12px rgba(var(--lc-gold-rgb), 0.4);
+  }
+
+  .lc-progress__step.is-complete .lc-progress__dot {
+    border-color: var(--lc-gold);
+    background: var(--lc-gold);
+  }
+
+  .lc-progress__step-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--lc-text-muted);
+    transition: color 0.3s ease;
+  }
+
+  .lc-progress__step.is-active .lc-progress__step-label { color: var(--lc-gold); }
+
+  /* ── STEP PANELS ── */
+  .lc-step {
+    display: none;
+    animation: lcFadeIn 0.4s ease;
+  }
+
+  .lc-step.is-active { display: block; }
+
+  @keyframes lcFadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .lc-step__header { margin-bottom: 1.5rem; }
+
+  .lc-step__title {
+    font-size: 1.3rem;
+    color: var(--lc-gold);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+  }
+
+  .lc-step__desc {
+    font-size: 0.8rem;
+    color: var(--lc-text-muted);
+    line-height: 1.6;
+  }
+
+  /* Product Cards Grid */
+  .lc-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .lc-product-card {
+    background: var(--lc-surface);
+    border: 1.5px solid var(--lc-border);
+    border-radius: var(--lc-radius-sm);
+    cursor: pointer;
+    transition: all 0.35s var(--lc-ease);
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .lc-product-card:hover {
+    border-color: rgba(var(--lc-gold-rgb), 0.35);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    transform: translateY(-4px);
+  }
+
+  .lc-product-card.is-selected {
+    border-color: var(--lc-gold) !important;
+    box-shadow: 0 0 0 1px var(--lc-gold), 0 8px 25px rgba(var(--lc-gold-rgb), 0.2) !important;
+  }
+
+  .lc-product-card.is-selected::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 22px;
+    height: 22px;
+    background: var(--lc-gold);
+    color: var(--lc-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    z-index: 5;
+  }
+
+  .lc-product-card { position: relative; }
+
+  .lc-product-card__img {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--lc-surface-light);
+  }
+
+  .lc-product-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--lc-ease);
+  }
+
+  .lc-product-card:hover .lc-product-card__img img {
+    transform: scale(1.06);
+  }
+
+  .lc-product-card__body { padding: 0.8rem; }
+
+  .lc-product-card__name {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--lc-text);
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .lc-product-card__price {
+    font-size: 0.78rem;
+    color: var(--lc-gold);
+    font-weight: 700;
+  }
+
+  .lc-product-card__sold-out {
+    font-size: 0.65rem;
+    color: #e74c3c;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .lc-empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--lc-text-muted);
+    grid-column: 1 / -1;
+  }
+
+  .lc-empty-state__icon { font-size: 2rem; margin-bottom: 0.8rem; opacity: 0.4; }
+  .lc-empty-state__text { font-size: 0.85rem; line-height: 1.6; }
+
+  /* ── STEP NAVIGATION ── */
+  .lc-step-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--lc-border);
+  }
+
+  .lc-nav-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--lc-radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .lc-nav-btn--prev {
+    background: transparent;
+    border: 1px solid var(--lc-border);
+    color: var(--lc-text-muted);
+  }
+
+  .lc-nav-btn--prev:hover:not(:disabled) {
+    border-color: var(--lc-gold);
+    color: var(--lc-gold);
+  }
+
+  .lc-nav-btn--next {
+    background: var(--lc-gold);
+    border: none;
+    color: var(--lc-bg);
+    flex: 1;
+    max-width: 250px;
+  }
+
+  .lc-nav-btn--next:hover:not(:disabled) {
+    background: var(--lc-gold-light);
+    box-shadow: 0 6px 20px rgba(var(--lc-gold-rgb), 0.3);
+  }
+
+  .lc-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* ══════════════════════════════════════════════════
+     PHASE: SUMMARY
+     ══════════════════════════════════════════════════ */
+  .lc-summary__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .lc-summary-card {
+    background: var(--lc-surface);
+    border: 1px solid var(--lc-border);
+    border-radius: var(--lc-radius);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .lc-summary-card__img {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--lc-surface-light);
+    overflow: hidden;
+  }
+
+  .lc-summary-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lc-summary-card__body { padding: 1rem; }
+
+  .lc-summary-card__category {
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--lc-gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .lc-summary-card__name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .lc-summary-card__price {
+    font-size: 0.9rem;
+    color: var(--lc-gold);
+    font-weight: 700;
+  }
+
+  /* Add to Cart */
+  .lc-summary__footer {
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 1px solid var(--lc-border);
+  }
+
+  .lc-summary__total-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .lc-summary__total-label {
+    font-size: 1rem;
+    color: var(--lc-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .lc-summary__total-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--lc-gold);
+    font-weight: 700;
+  }
+
+  .lc-add-to-cart-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.2rem 3rem;
+    background: var(--lc-gold);
+    color: var(--lc-bg);
+    border: none;
+    border-radius: var(--lc-radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 280px;
+  }
+
+  .lc-add-to-cart-btn:hover {
+    background: var(--lc-gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(var(--lc-gold-rgb), 0.35);
+  }
+
+  .lc-add-to-cart-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Trust Badges */
+  .lc-trust {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .lc-trust__badge {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .lc-trust__icon {
+    font-size: 1.3rem;
+    color: var(--lc-gold);
+  }
+
+  .lc-trust__label {
+    font-size: 0.68rem;
+    color: var(--lc-text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ══════════════════════════════════════════════════
+     BACK BUTTON
+     ══════════════════════════════════════════════════ */
+  .lc-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--lc-text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    margin-bottom: 2rem;
+    transition: color 0.3s ease;
+  }
+
+  .lc-back-btn:hover { color: var(--lc-gold); }
+
+  /* ══════════════════════════════════════════════════
+     ANIMATIONS
+     ══════════════════════════════════════════════════ */
+  @keyframes lcFadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .lc-animate-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: lcFadeUp 0.5s ease forwards;
+  }
+
+  /* ══════════════════════════════════════════════════
+     RESPONSIVE
+     ══════════════════════════════════════════════════ */
+  @media screen and (max-width: 989px) {
+    .lc-config-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .lc-preview {
+      position: relative;
+      top: 0;
+    }
+
+    .lc-intro { padding: 4rem 1.5rem 3rem; min-height: auto; }
+    .lc-phase { padding: 3rem 1.5rem; }
+  }
+
+  @media screen and (max-width: 749px) {
+    .lc-intro { padding: 3rem 1rem 2rem; }
+    .lc-phase { padding: 2rem 1rem; }
+
+    .lc-products-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+    }
+
+    .lc-models-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .lc-summary__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lc-step-nav {
+      flex-direction: column;
+    }
+
+    .lc-nav-btn--next { max-width: 100%; }
+
+    .lc-progress__step-label { font-size: 0.55rem; }
+
+    .lc-exploded__label { display: none; }
+
+    .lc-trust { gap: 1.5rem; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .lc-exploded__layer { animation: none !important; }
+    .lc-intro__caption, .lc-intro__title, .lc-intro__rule,
+    .lc-intro__subtitle, .lc-exploded, .lc-start-btn {
+      opacity: 1 !important;
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+</style>
+
+{%- comment -%} ════════════════════════════════════════
+   HTML MARKUP
+   ════════════════════════════════════════ {%- endcomment -%}
+
+<div class="lc" id="LuxuryCustomizer-{{ section.id }}">
+
+  {%- comment -%} ── PHASE 1: INTRO ── {%- endcomment -%}
+  <div class="lc-intro" id="lc-intro">
+    <p class="lc-intro__caption">The Customizer</p>
+    <h1 class="lc-intro__title">{{ title }}</h1>
+    <div class="lc-intro__rule" aria-hidden="true"></div>
+    <p class="lc-intro__subtitle">{{ subtitle }}</p>
+
+    <div class="lc-exploded" id="lc-exploded">
+      <div class="lc-exploded__stack">
+        {%- assign layers = 'crystal,bezel,dial,case,strap' | split: ',' -%}
+        {%- assign layer_icons = '💎,⭕,🔘,⬛,〰️' | split: ',' -%}
+        {%- assign layer_hints = 'Sapphire or mineral glass,Rotating or fixed frame,The face of your timepiece,The body and architecture,Bracelet or rubber strap' | split: ',' -%}
+        {%- assign step_labels_arr = s1 | append: ',' | append: s2 | append: ',' | append: s3 | append: ',' | append: s4 | append: ',' | append: s5 | split: ',' -%}
+
+        {%- for layer in layers -%}
+          <div
+            class="lc-exploded__layer lc-exploded__layer--{{ layer }}"
+            data-component="{{ layer }}"
+            data-step="{{ forloop.index0 }}"
+            role="button"
+            tabindex="0"
+            aria-label="Configure {{ step_labels_arr[forloop.index0] }}"
+          >
+            <div class="lc-exploded__icon">{{ layer_icons[forloop.index0] }}</div>
+            <div class="lc-exploded__info">
+              <div class="lc-exploded__name">{{ step_labels_arr[forloop.index0] }}</div>
+              <div class="lc-exploded__hint">{{ layer_hints[forloop.index0] }}</div>
+            </div>
+            <div class="lc-exploded__arrow">→</div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <button class="lc-start-btn" id="lc-start-btn">
+      Begin Configuration
+      <span aria-hidden="true">→</span>
+    </button>
+  </div>
+
+  {%- comment -%} ── PHASE 2: MODEL SELECTION ── {%- endcomment -%}
+  <div class="lc-phase lc-phase--models" id="lc-phase-models" style="display: none;">
+    <div class="lc-phase__header">
+      <p class="lc-phase__caption">Step 1 of 2</p>
+      <h2 class="lc-phase__title">Choose Your Model</h2>
+      <p class="lc-phase__subtitle">Each model has its own set of compatible components and modification options.</p>
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="lc-models-grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'model' -%}
+            <button class="lc-model-card" data-model-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+              <div class="lc-model-card__img{% unless block.settings.model_image %} lc-model-card__img--placeholder{% endunless %}">
+                {%- if block.settings.model_image -%}
+                  {{ block.settings.model_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.model_name }}
+                {%- else -%}
+                  <span>⌚</span>
+                {%- endif -%}
+              </div>
+              <div class="lc-model-card__body">
+                <h3 class="lc-model-card__name">{{ block.settings.model_name }}</h3>
+                {%- if block.settings.model_description != blank -%}
+                  <p class="lc-model-card__desc">{{ block.settings.model_description }}</p>
+                {%- endif -%}
+              </div>
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="lc-empty-state">
+        <div class="lc-empty-state__icon">⌚</div>
+        <p class="lc-empty-state__text">No models configured yet.<br>Add watch model blocks in the Theme Editor and assign component collections.</p>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ── PHASE 3: COMPONENT CONFIGURATION ── {%- endcomment -%}
+  <div class="lc-phase lc-phase--config" id="lc-phase-config" style="display: none;">
+    <button class="lc-back-btn" id="lc-back-models">← Back to Models</button>
+
+    <div class="lc-config-layout">
+      {%- comment -%} Left: Preview Panel {%- endcomment -%}
+      <div class="lc-preview" id="lc-preview">
+        <div class="lc-preview__header">
+          <span class="lc-preview__title">Your Build</span>
+          <span class="lc-preview__model-name" id="lc-preview-model"></span>
         </div>
-        <div style="text-align: center; margin-top: 2rem;">
-           <p class="text-platinum" style="font-size: 0.9rem; opacity: 0.8;" id="visualizer-summary">Datejust 41mm · Obsidian Dial · Fluted Bezel</p>
-           <h3 class="text-sand" id="total-price" style="margin-top: 0.5rem; font-size: 2rem;">,400</h3>
+        <div class="lc-preview__visual" id="lc-preview-visual">
+          <div class="lc-preview__empty" id="lc-preview-empty">
+            <div class="lc-preview__empty-icon">⌚</div>
+            <p>Select components to preview your build</p>
+          </div>
+        </div>
+        <div class="lc-preview__selections" id="lc-preview-selections">
+          <div class="lc-preview__item lc-preview__item--empty" data-comp="cases">
+            <span class="lc-preview__item-label">{{ s1 }}</span>
+            <span class="lc-preview__item-value">Not selected</span>
+            <span class="lc-preview__item-price"></span>
+          </div>
+          <div class="lc-preview__item lc-preview__item--empty" data-comp="dials">
+            <span class="lc-preview__item-label">{{ s2 }}</span>
+            <span class="lc-preview__item-value">Not selected</span>
+            <span class="lc-preview__item-price"></span>
+          </div>
+          <div class="lc-preview__item lc-preview__item--empty" data-comp="bezels">
+            <span class="lc-preview__item-label">{{ s3 }}</span>
+            <span class="lc-preview__item-value">Not selected</span>
+            <span class="lc-preview__item-price"></span>
+          </div>
+          <div class="lc-preview__item lc-preview__item--empty" data-comp="crystals">
+            <span class="lc-preview__item-label">{{ s4 }}</span>
+            <span class="lc-preview__item-value">Not selected</span>
+            <span class="lc-preview__item-price"></span>
+          </div>
+          <div class="lc-preview__item lc-preview__item--empty" data-comp="straps">
+            <span class="lc-preview__item-label">{{ s5 }}</span>
+            <span class="lc-preview__item-value">Not selected</span>
+            <span class="lc-preview__item-price"></span>
+          </div>
+        </div>
+        <div class="lc-preview__total">
+          <span class="lc-preview__total-label">Estimated Total</span>
+          <span class="lc-preview__total-price" id="lc-total-price">{{ 0 | money }}</span>
+        </div>
+      </div>
+
+      {%- comment -%} Right: Steps {%- endcomment -%}
+      <div class="lc-steps-container">
+        <div class="lc-progress" id="lc-progress">
+          <div class="lc-progress__bar">
+            <div class="lc-progress__fill" id="lc-progress-fill"></div>
+          </div>
+          <div class="lc-progress__steps">
+            {%- assign step_arr = s1 | append: ',' | append: s2 | append: ',' | append: s3 | append: ',' | append: s4 | append: ',' | append: s5 | split: ',' -%}
+            {%- for label in step_arr -%}
+              <button class="lc-progress__step{% if forloop.first %} is-active{% endif %}" data-step="{{ forloop.index0 }}">
+                <span class="lc-progress__dot"></span>
+                <span class="lc-progress__step-label">{{ label }}</span>
+              </button>
+            {%- endfor -%}
+          </div>
+        </div>
+
+        {%- comment -%} Step panels — populated by JavaScript from collection data {%- endcomment -%}
+        {%- for key in comp_keys -%}
+          <div class="lc-step{% if forloop.first %} is-active{% endif %}" data-step="{{ forloop.index0 }}" id="lc-step-{{ forloop.index0 }}">
+            <div class="lc-step__header">
+              <h3 class="lc-step__title">Select {{ step_arr[forloop.index0] }}</h3>
+              <p class="lc-step__desc">Choose from available options below. Prices are per component.</p>
+            </div>
+            <div class="lc-products-grid" id="lc-grid-{{ forloop.index0 }}">
+              {%- comment -%} Populated by JS {%- endcomment -%}
+            </div>
+          </div>
+        {%- endfor -%}
+
+        <div class="lc-step-nav">
+          <button class="lc-nav-btn lc-nav-btn--prev" id="lc-prev-btn" disabled>← Previous</button>
+          <button class="lc-nav-btn lc-nav-btn--next" id="lc-next-btn">Next Step →</button>
         </div>
       </div>
     </div>
-    <div class="controls-pane">
-      <div style="margin-bottom: 2rem;">
-        <h1 id="builder-title" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Configure Your Timepiece</h1>
-        <p class="text-platinum" id="builder-desc" style="opacity: 0.8;">Select your components to craft a truly unique piece of horological art.</p>
+  </div>
+
+  {%- comment -%} ── PHASE 4: SUMMARY ── {%- endcomment -%}
+  <div class="lc-phase lc-phase--summary" id="lc-phase-summary" style="display: none;">
+    <button class="lc-back-btn" id="lc-back-config">← Modify Build</button>
+
+    <div class="lc-phase__header">
+      <p class="lc-phase__caption">Final Review</p>
+      <h2 class="lc-phase__title">Your Masterpiece</h2>
+      <p class="lc-phase__subtitle">Review your selections below and add everything to your cart with one click.</p>
+    </div>
+
+    <div class="lc-summary__grid" id="lc-summary-grid"></div>
+
+    <div class="lc-summary__footer">
+      <div class="lc-summary__total-row">
+        <span class="lc-summary__total-label">Total</span>
+        <span class="lc-summary__total-price" id="lc-summary-price">{{ 0 | money }}</span>
       </div>
-      <div class="accordion-system" id="configuratorAccordion">
-        <div class="accordion-item glass-panel" style="margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
-          <button class="accordion-header" aria-expanded="true"><span id="label-base">1. Base Architecture</span><span class="icon">+</span></button>
-          <div class="accordion-content active" id="options-base"></div>
-        </div>
-        <div class="accordion-item glass-panel" style="margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
-          <button class="accordion-header" aria-expanded="false"><span id="label-dial">2. Custom Dials</span><span class="icon">+</span></button>
-          <div class="accordion-content" id="options-dial"></div>
-        </div>
-        <div class="accordion-item glass-panel" style="margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
-          <button class="accordion-header" aria-expanded="false"><span id="label-bezel">3. Bezels</span><span class="icon">+</span></button>
-          <div class="accordion-content" id="options-bezel"></div>
-        </div>
-      </div>
-      <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--c-charcoal);">
-        <button id="addToCartBtn" class="button button--primary" style="width: 100%; font-size: 1.1rem; padding: 1.5rem;">Finalize Build & Add to Cart</button>
-      </div>
-      <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
-        <div style="text-align: center;"><div style="color: var(--c-sand); font-size: 1.5rem;">⚙️</div><p class="text-platinum" style="font-size: 0.75rem; margin-top: 4px;" id="trust-warranty">1-Year Warranty</p></div>
-        <div style="text-align: center;"><div style="color: var(--c-sand); font-size: 1.5rem;">💧</div><p class="text-platinum" style="font-size: 0.75rem; margin-top: 4px;" id="trust-water">Water Resistance</p></div>
-        <div style="text-align: center;"><div style="color: var(--c-sand); font-size: 1.5rem;">🛡️</div><p class="text-platinum" style="font-size: 0.75rem; margin-top: 4px;" id="trust-auth">Authentic Components</p></div>
+      <button class="lc-add-to-cart-btn" id="lc-add-to-cart-btn">
+        <span id="lc-cart-text">Finalize Build & Add to Cart</span>
+        <span id="lc-cart-loading" style="display:none;">Adding to Cart...</span>
+      </button>
+      <div class="lc-trust">
+        <div class="lc-trust__badge"><span class="lc-trust__icon">🛡️</span><span class="lc-trust__label">Authentic Parts</span></div>
+        <div class="lc-trust__badge"><span class="lc-trust__icon">⚙️</span><span class="lc-trust__label">1-Year Warranty</span></div>
+        <div class="lc-trust__badge"><span class="lc-trust__icon">💧</span><span class="lc-trust__label">Pressure Tested</span></div>
+        <div class="lc-trust__badge"><span class="lc-trust__icon">🚚</span><span class="lc-trust__label">Worldwide Shipping</span></div>
       </div>
     </div>
-  </section>
+  </div>
 </div>
+
+{%- comment -%} ════════════════════════════════════════
+   DATA: Serialize collection products to JSON
+   ════════════════════════════════════════ {%- endcomment -%}
+
+<script type="application/json" id="lc-data-{{ section.id }}">
+{
+  "currency": {{ cart.currency.iso_code | json }},
+  "moneyFormat": {{ shop.money_format | json }},
+  "models": [
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'model' -%}
+        {
+          "name": {{ block.settings.model_name | default: 'Untitled' | json }},
+          "description": {{ block.settings.model_description | default: '' | json }},
+          "image": {% if block.settings.model_image %}{{ block.settings.model_image | image_url: width: 800 | json }}{% else %}""{% endif %},
+          "components": {
+            {%- assign coll_ids = 'cases_collection,dials_collection,bezels_collection,crystals_collection,straps_collection' | split: ',' -%}
+            {%- for coll_key in coll_ids -%}
+              "{{ comp_keys[forloop.index0] }}": [
+                {%- assign coll = block.settings[coll_key] -%}
+                {%- if coll != blank -%}
+                  {%- for product in coll.products limit: 24 -%}
+                    {
+                      "id": {{ product.id }},
+                      "title": {{ product.title | json }},
+                      "price": {{ product.price }},
+                      "priceFormatted": {{ product.price | money | json }},
+                      "image": {% if product.featured_image %}{{ product.featured_image | image_url: width: 400 | json }}{% else %}""{% endif %},
+                      "variantId": {{ product.first_available_variant.id }},
+                      "available": {{ product.available }},
+                      "url": {{ product.url | json }}
+                    }{%- unless forloop.last -%},{%- endunless -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              ]{%- unless forloop.last -%},{%- endunless -%}
+            {%- endfor -%}
+          }
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{%- comment -%} ════════════════════════════════════════
+   JAVASCRIPT: Customizer Engine
+   ════════════════════════════════════════ {%- endcomment -%}
+
+<script>
+(function() {
+  'use strict';
+
+  const SECTION_ID = '{{ section.id }}';
+  const COMP_KEYS = ['cases', 'dials', 'bezels', 'crystals', 'straps'];
+  const STEP_COUNT = COMP_KEYS.length;
+
+  /* ── Load Data ── */
+  const dataEl = document.getElementById('lc-data-' + SECTION_ID);
+  if (!dataEl) return;
+  let DATA;
+  try { DATA = JSON.parse(dataEl.textContent); } catch(e) { console.error('Customizer data parse error', e); return; }
+
+  /* ── State ── */
+  const state = {
+    phase: 'intro', // intro | models | config | summary
+    modelIndex: -1,
+    currentStep: 0,
+    selections: { cases: null, dials: null, bezels: null, crystals: null, straps: null }
+  };
+
+  /* ── DOM References ── */
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => document.querySelectorAll(sel);
+
+  const introEl = $('#lc-intro');
+  const modelsEl = $('#lc-phase-models');
+  const configEl = $('#lc-phase-config');
+  const summaryEl = $('#lc-phase-summary');
+
+  /* ── Format Price ── */
+  function formatMoney(cents) {
+    const amount = (cents / 100).toFixed(2);
+    const fmt = DATA.moneyFormat || '${{amount}}';
+    return fmt.replace('{{amount}}', amount)
+              .replace('{{amount_no_decimals}}', Math.round(cents / 100).toString())
+              .replace('{{amount_with_comma_separator}}', amount.replace('.', ','));
+  }
+
+  /* ══════════════════════════════════════
+     PHASE TRANSITIONS
+     ══════════════════════════════════════ */
+  function showPhase(phase) {
+    state.phase = phase;
+    introEl.style.display = phase === 'intro' ? '' : 'none';
+    modelsEl.style.display = phase === 'models' ? '' : 'none';
+    configEl.style.display = phase === 'config' ? '' : 'none';
+    summaryEl.style.display = phase === 'summary' ? '' : 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ── Start Button ── */
+  const startBtn = $('#lc-start-btn');
+  if (startBtn) {
+    startBtn.addEventListener('click', function() {
+      if (DATA.models.length === 1) {
+        selectModel(0);
+      } else if (DATA.models.length === 0) {
+        showPhase('models'); // Will show empty state
+      } else {
+        showPhase('models');
+      }
+    });
+  }
+
+  /* ── Exploded Layer Clicks ── */
+  $$('.lc-exploded__layer').forEach(function(layer) {
+    layer.addEventListener('click', function() {
+      if (DATA.models.length === 1) {
+        selectModel(0);
+        const step = parseInt(this.dataset.step);
+        if (!isNaN(step)) goToStep(step);
+      } else {
+        showPhase('models');
+      }
+    });
+  });
+
+  /* ══════════════════════════════════════
+     MODEL SELECTION
+     ══════════════════════════════════════ */
+  $$('.lc-model-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      const idx = parseInt(this.dataset.modelIndex);
+      selectModel(idx);
+    });
+  });
+
+  function selectModel(index) {
+    state.modelIndex = index;
+    state.currentStep = 0;
+    state.selections = { cases: null, dials: null, bezels: null, crystals: null, straps: null };
+
+    const model = DATA.models[index];
+    if (!model) return;
+
+    // Update model name in preview
+    const modelNameEl = $('#lc-preview-model');
+    if (modelNameEl) modelNameEl.textContent = model.name;
+
+    // Populate product grids
+    COMP_KEYS.forEach(function(key, i) {
+      populateGrid(i, model.components[key] || []);
+    });
+
+    // Reset preview
+    updatePreview();
+    updateProgress();
+
+    showPhase('config');
+  }
+
+  /* ── Back to Models ── */
+  const backModelsBtn = $('#lc-back-models');
+  if (backModelsBtn) {
+    backModelsBtn.addEventListener('click', function() {
+      showPhase('models');
+    });
+  }
+
+  /* ══════════════════════════════════════
+     PRODUCT GRID POPULATION
+     ══════════════════════════════════════ */
+  function populateGrid(stepIndex, products) {
+    const grid = $('#lc-grid-' + stepIndex);
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    if (products.length === 0) {
+      grid.innerHTML = '<div class="lc-empty-state"><div class="lc-empty-state__icon">📦</div><p class="lc-empty-state__text">No components available yet.<br>Add products to this collection in your Shopify Admin.</p></div>';
+      return;
+    }
+
+    products.forEach(function(product, pIdx) {
+      const card = document.createElement('div');
+      card.className = 'lc-product-card';
+      card.dataset.compKey = COMP_KEYS[stepIndex];
+      card.dataset.productIndex = pIdx;
+
+      let imgHtml = '';
+      if (product.image) {
+        imgHtml = '<div class="lc-product-card__img"><img src="' + product.image + '" alt="' + escHtml(product.title) + '" loading="lazy"></div>';
+      } else {
+        imgHtml = '<div class="lc-product-card__img" style="display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--lc-text-muted);">⌚</div>';
+      }
+
+      let availHtml = product.available
+        ? '<span class="lc-product-card__price">' + product.priceFormatted + '</span>'
+        : '<span class="lc-product-card__sold-out">Sold Out</span>';
+
+      card.innerHTML = imgHtml + '<div class="lc-product-card__body"><div class="lc-product-card__name">' + escHtml(product.title) + '</div>' + availHtml + '</div>';
+
+      if (product.available) {
+        card.addEventListener('click', function() {
+          selectProduct(stepIndex, pIdx);
+        });
+      } else {
+        card.style.opacity = '0.5';
+        card.style.cursor = 'not-allowed';
+      }
+
+      grid.appendChild(card);
+    });
+  }
+
+  function escHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  /* ══════════════════════════════════════
+     PRODUCT SELECTION
+     ══════════════════════════════════════ */
+  function selectProduct(stepIndex, productIndex) {
+    const compKey = COMP_KEYS[stepIndex];
+    const model = DATA.models[state.modelIndex];
+    if (!model) return;
+
+    const product = model.components[compKey][productIndex];
+    if (!product) return;
+
+    state.selections[compKey] = product;
+
+    // Update card selection state
+    const grid = $('#lc-grid-' + stepIndex);
+    if (grid) {
+      grid.querySelectorAll('.lc-product-card').forEach(function(c, i) {
+        c.classList.toggle('is-selected', i === productIndex);
+      });
+    }
+
+    updatePreview();
+    updateProgress();
+  }
+
+  /* ══════════════════════════════════════
+     PREVIEW PANEL
+     ══════════════════════════════════════ */
+  function updatePreview() {
+    let totalCents = 0;
+    let selectedCount = 0;
+    let lastSelectedImage = '';
+
+    COMP_KEYS.forEach(function(key) {
+      const sel = state.selections[key];
+      const itemEl = document.querySelector('.lc-preview__item[data-comp="' + key + '"]');
+      if (!itemEl) return;
+
+      if (sel) {
+        selectedCount++;
+        totalCents += sel.price;
+        if (sel.image) lastSelectedImage = sel.image;
+        itemEl.classList.remove('lc-preview__item--empty');
+        itemEl.querySelector('.lc-preview__item-value').textContent = sel.title;
+        itemEl.querySelector('.lc-preview__item-price').textContent = sel.priceFormatted;
+      } else {
+        itemEl.classList.add('lc-preview__item--empty');
+        itemEl.querySelector('.lc-preview__item-value').textContent = 'Not selected';
+        itemEl.querySelector('.lc-preview__item-price').textContent = '';
+      }
+    });
+
+    // Update total
+    const totalEl = $('#lc-total-price');
+    if (totalEl) totalEl.textContent = formatMoney(totalCents);
+
+    // Update visual preview
+    const visualEl = $('#lc-preview-visual');
+    const emptyEl = $('#lc-preview-empty');
+    if (visualEl && emptyEl) {
+      if (lastSelectedImage) {
+        emptyEl.style.display = 'none';
+        // Show the last selected image
+        let img = visualEl.querySelector('.lc-preview__main-img');
+        if (!img) {
+          img = document.createElement('img');
+          img.className = 'lc-preview__main-img';
+          img.style.cssText = 'max-width:80%;max-height:80%;object-fit:contain;transition:opacity 0.4s ease;';
+          visualEl.appendChild(img);
+        }
+        img.src = lastSelectedImage;
+        img.alt = 'Build preview';
+      } else {
+        emptyEl.style.display = '';
+        const img = visualEl.querySelector('.lc-preview__main-img');
+        if (img) img.remove();
+      }
+    }
+
+    // Update next button text on last step
+    updateNavButtons();
+  }
+
+  /* ══════════════════════════════════════
+     PROGRESS BAR
+     ══════════════════════════════════════ */
+  function updateProgress() {
+    const fillEl = $('#lc-progress-fill');
+    const pct = ((state.currentStep + 1) / STEP_COUNT) * 100;
+    if (fillEl) fillEl.style.width = pct + '%';
+
+    $$('.lc-progress__step').forEach(function(step, i) {
+      step.classList.toggle('is-active', i === state.currentStep);
+      step.classList.toggle('is-complete', state.selections[COMP_KEYS[i]] !== null && i !== state.currentStep);
+    });
+  }
+
+  /* ══════════════════════════════════════
+     STEP NAVIGATION
+     ══════════════════════════════════════ */
+  function goToStep(step) {
+    if (step < 0 || step >= STEP_COUNT) return;
+    state.currentStep = step;
+
+    $$('.lc-step').forEach(function(el, i) {
+      el.classList.toggle('is-active', i === step);
+    });
+
+    updateProgress();
+    updateNavButtons();
+  }
+
+  function updateNavButtons() {
+    const prevBtn = $('#lc-prev-btn');
+    const nextBtn = $('#lc-next-btn');
+
+    if (prevBtn) prevBtn.disabled = state.currentStep === 0;
+
+    if (nextBtn) {
+      if (state.currentStep === STEP_COUNT - 1) {
+        // Check if all selections are made
+        const allSelected = COMP_KEYS.every(function(k) { return state.selections[k] !== null; });
+        nextBtn.textContent = allSelected ? 'Review Build →' : 'Complete All Steps';
+        nextBtn.disabled = !allSelected;
+      } else {
+        nextBtn.textContent = 'Next Step →';
+        nextBtn.disabled = false;
+      }
+    }
+  }
+
+  // Prev/Next button handlers
+  const prevBtn = $('#lc-prev-btn');
+  const nextBtn = $('#lc-next-btn');
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function() {
+      goToStep(state.currentStep - 1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function() {
+      if (state.currentStep === STEP_COUNT - 1) {
+        showSummary();
+      } else {
+        goToStep(state.currentStep + 1);
+      }
+    });
+  }
+
+  // Progress step clicks
+  $$('.lc-progress__step').forEach(function(step) {
+    step.addEventListener('click', function() {
+      const idx = parseInt(this.dataset.step);
+      if (!isNaN(idx)) goToStep(idx);
+    });
+  });
+
+  /* ══════════════════════════════════════
+     SUMMARY
+     ══════════════════════════════════════ */
+  function showSummary() {
+    const grid = $('#lc-summary-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    let totalCents = 0;
+    const stepLabels = {{ step_arr | json }};
+
+    COMP_KEYS.forEach(function(key, i) {
+      const sel = state.selections[key];
+      if (!sel) return;
+
+      totalCents += sel.price;
+
+      const card = document.createElement('div');
+      card.className = 'lc-summary-card lc-animate-in';
+      card.style.animationDelay = (i * 0.1) + 's';
+
+      let imgHtml = sel.image
+        ? '<div class="lc-summary-card__img"><img src="' + sel.image + '" alt="' + escHtml(sel.title) + '"></div>'
+        : '<div class="lc-summary-card__img" style="display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:var(--lc-text-muted);">⌚</div>';
+
+      card.innerHTML = imgHtml + '<div class="lc-summary-card__body"><div class="lc-summary-card__category">' + escHtml(stepLabels[i] || key) + '</div><div class="lc-summary-card__name">' + escHtml(sel.title) + '</div><div class="lc-summary-card__price">' + sel.priceFormatted + '</div></div>';
+
+      grid.appendChild(card);
+    });
+
+    const priceEl = $('#lc-summary-price');
+    if (priceEl) priceEl.textContent = formatMoney(totalCents);
+
+    showPhase('summary');
+  }
+
+  /* Back to config */
+  const backConfigBtn = $('#lc-back-config');
+  if (backConfigBtn) {
+    backConfigBtn.addEventListener('click', function() {
+      showPhase('config');
+    });
+  }
+
+  /* ══════════════════════════════════════
+     ADD TO CART (Shopify Ajax API)
+     ══════════════════════════════════════ */
+  const addToCartBtn = $('#lc-add-to-cart-btn');
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener('click', function() {
+      const items = [];
+
+      COMP_KEYS.forEach(function(key) {
+        const sel = state.selections[key];
+        if (sel && sel.variantId && sel.available) {
+          items.push({ id: sel.variantId, quantity: 1 });
+        }
+      });
+
+      if (items.length === 0) return;
+
+      addToCartBtn.disabled = true;
+      $('#lc-cart-text').style.display = 'none';
+      $('#lc-cart-loading').style.display = '';
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        // Redirect to cart or open drawer
+        window.location.href = '/cart';
+      })
+      .catch(function(err) {
+        console.error('Cart error:', err);
+        alert('There was an error adding items to your cart. Please try again.');
+      })
+      .finally(function() {
+        addToCartBtn.disabled = false;
+        $('#lc-cart-text').style.display = '';
+        $('#lc-cart-loading').style.display = 'none';
+      });
+    });
+  }
+
+})();
+</script>
 
 {% schema %}
 {
   "name": "Luxury Customizer",
   "tag": "section",
-  "class": "section",
-  "settings": [],
+  "class": "lc-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Build Your Masterpiece"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Select each component to craft a truly unique piece of horological art. Your dream timepiece, assembled to order."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Background Image",
+      "info": "Optional background for the intro section"
+    },
+    {
+      "type": "header",
+      "content": "Component Labels"
+    },
+    {
+      "type": "text",
+      "id": "step_1_label",
+      "label": "Step 1 Label",
+      "default": "Case"
+    },
+    {
+      "type": "text",
+      "id": "step_2_label",
+      "label": "Step 2 Label",
+      "default": "Dial"
+    },
+    {
+      "type": "text",
+      "id": "step_3_label",
+      "label": "Step 3 Label",
+      "default": "Bezel"
+    },
+    {
+      "type": "text",
+      "id": "step_4_label",
+      "label": "Step 4 Label",
+      "default": "Crystal"
+    },
+    {
+      "type": "text",
+      "id": "step_5_label",
+      "label": "Step 5 Label",
+      "default": "Strap"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "model",
+      "name": "Watch Model",
+      "settings": [
+        {
+          "type": "text",
+          "id": "model_name",
+          "label": "Model Name",
+          "default": "SKX Diver"
+        },
+        {
+          "type": "textarea",
+          "id": "model_description",
+          "label": "Description",
+          "default": "The iconic dive watch platform for bold, custom modifications."
+        },
+        {
+          "type": "image_picker",
+          "id": "model_image",
+          "label": "Model Preview Image"
+        },
+        {
+          "type": "header",
+          "content": "Component Collections"
+        },
+        {
+          "type": "collection",
+          "id": "cases_collection",
+          "label": "Cases Collection"
+        },
+        {
+          "type": "collection",
+          "id": "dials_collection",
+          "label": "Dials Collection"
+        },
+        {
+          "type": "collection",
+          "id": "bezels_collection",
+          "label": "Bezels Collection"
+        },
+        {
+          "type": "collection",
+          "id": "crystals_collection",
+          "label": "Crystals Collection"
+        },
+        {
+          "type": "collection",
+          "id": "straps_collection",
+          "label": "Straps Collection"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
       "name": "Luxury Customizer"

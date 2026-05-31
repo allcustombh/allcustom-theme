@@ -105,7 +105,7 @@
           "type": "button",
           "settings": {
             "button_label": "Launch Customizer",
-            "button_link": ""
+            "button_link": "/pages/luxury-customizer"
           }
         }
       },
