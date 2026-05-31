@@ -12,15 +12,17 @@
     "atelier_hero": {
       "type": "atelier-hero",
       "settings": {
-        "title": "Atelier De Horology",
-        "subtitle": "Bespoke Seiko Modifications · Bahrain",
+        "logo": "shopify://shop_images/erasebg-transformed_1e04de52-0d18-43bf-9654-ee7782ba56e5.png",
+        "title": "Our Workshop",
+        "subtitle": "Bespoke Watch Modifications",
         "cta_label_1": "Explore Collection",
         "cta_link_1": "shopify://collections/all",
-        "cta_label_2": "Build Your Masterpiece",
+        "cta_label_2": "Build Your Watch",
         "cta_link_2": "shopify://pages/customizer-atelier",
+        "hero_watch_image": "shopify://shop_images/5_Atelier_Bench_e2f4f67e-84d6-4ceb-a347-b5e60772e43f.jpg",
         "bg_color": "#0b0c10",
         "accent_color": "#c5a880",
-        "particle_count": 80
+        "particle_count": 170
       }
     },
     "marquee_banner": {

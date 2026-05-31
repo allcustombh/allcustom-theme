@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -6,9 +15,23 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "customizer_HRy7H3": {
+      "type": "customizer",
+      "name": "Luxury Customizer",
+      "settings": {
+        "title": "Build Your Masterpiece",
+        "subtitle": "Select each component to craft a truly unique piece of horological art. Your dream timepiece, assembled to order.",
+        "step_1_label": "Case",
+        "step_2_label": "Dial",
+        "step_3_label": "Bezel",
+        "step_4_label": "Crystal",
+        "step_5_label": "Strap"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "customizer_HRy7H3"
   ]
 }
