@@ -32,6 +32,7 @@
         },
         "legal_links": {
           "type": "link_list",
+          "disabled": true,
           "settings": {
             "heading": "",
             "menu": "footer"
