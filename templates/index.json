@@ -73,7 +73,7 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "collection": "",
+        "collection": "men-watches",
         "products_to_show": 6,
         "title": "The Collection",
         "heading_size": "h1",
@@ -104,7 +104,7 @@
         "s1": {
           "type": "stat_item",
           "settings": {
-            "number": "500",
+            "number": "30",
             "suffix": "+",
             "label": "Watches Modified"
           }
@@ -112,7 +112,7 @@
         "s2": {
           "type": "stat_item",
           "settings": {
-            "number": "8",
+            "number": "2",
             "suffix": "+",
             "label": "Years Experience"
           }
@@ -120,7 +120,7 @@
         "s3": {
           "type": "stat_item",
           "settings": {
-            "number": "15",
+            "number": "6",
             "suffix": "+",
             "label": "Countries Served"
           }
@@ -183,6 +183,7 @@
         "p4"
       ],
       "settings": {
+        "process_image": "shopify://shop_images/IMG_20260530_202152_5f552767-326a-4c40-9d64-0087a4212bf3.png",
         "title": "The Craft",
         "subtitle": "Every Masterpiece Follows a Sacred Process",
         "bg_color": "#0b0c10"
@@ -207,6 +208,7 @@
         },
         "iwt_button": {
           "type": "button",
+          "disabled": true,
           "settings": {
             "button_label": "Launch Customizer",
             "button_link": "/pages/luxury-customizer",
@@ -220,7 +222,8 @@
         "iwt_button"
       ],
       "settings": {
-        "height": "adapt",
+        "image": "shopify://shop_images/WhatsApp_Image_2026-05-30_at_20.04.24_1.jpg",
+        "height": "small",
         "desktop_image_width": "medium",
         "layout": "image_first",
         "image_behavior": "none",
@@ -237,7 +240,7 @@
     "featured_blog": {
       "type": "featured-blog",
       "settings": {
-        "blog": "",
+        "blog": "news",
         "post_limit": 3,
         "heading": "The Journal",
         "heading_size": "h1",

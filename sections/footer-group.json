@@ -1,21 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
     "footer": {
       "type": "footer",
-      "settings": {
-        "color_scheme": "scheme-2",
-        "newsletter_enable": false,
-        "enable_follow_on_shop": false,
-        "show_social": true,
-        "margin_top": 0,
-        "padding_top": 36,
-        "padding_bottom": 36
-      },
       "blocks": {
+        "text_YEijbE": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "heading": "Heading",
+            "subtext": "<p>Share contact information, store details, and brand content with your customers.</p>"
+          }
+        },
         "link_list": {
           "type": "link_list",
+          "disabled": true,
           "settings": {
             "heading": "The Atelier",
             "menu": "footer"
@@ -24,15 +33,30 @@
         "legal_links": {
           "type": "link_list",
           "settings": {
-            "heading": "Policies",
+            "heading": "",
             "menu": "footer"
           }
         }
       },
       "block_order": [
+        "text_YEijbE",
         "link_list",
         "legal_links"
-      ]
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "newsletter_enable": false,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": false,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
